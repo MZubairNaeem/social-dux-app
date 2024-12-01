@@ -2,7 +2,7 @@ import 'package:scp/model/domain_model.dart';
 
 class UserProfileModel {
   final String? id;
-  final String domainId;
+  final String? domainId;
   final String? userId;
   final String? tagline;
   final String? about;
@@ -12,7 +12,7 @@ class UserProfileModel {
   // Constructor
   UserProfileModel({
     this.id,
-    required this.domainId,
+    this.domainId,
     this.userId,
     this.tagline,
     this.about,

@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
+import 'package:scp/core/auth/onboarding/view/splash_page.dart';
 import 'package:scp/theme/colors/colors.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 
 class DrawerWidget extends ConsumerWidget {
   const DrawerWidget({super.key});
@@ -34,9 +36,17 @@ class DrawerWidget extends ConsumerWidget {
               const Spacer(),
               ElevatedButton(
                 onPressed: () async {
+                  Supabase.instance.client.auth.signOut();
                   SharedPreferences sharedPreferences =
                       await SharedPreferences.getInstance();
                   sharedPreferences.remove('token');
+                  if (context.mounted) {
+                    Navigator.pushAndRemoveUntil(
+                      context,
+                      MaterialPageRoute(builder: (_) => const SplashPage()),
+                      (route) => false,
+                    );
+                  }
                 },
                 style: ElevatedButton.styleFrom(
                   overlayColor: WidgetStateColor.resolveWith(

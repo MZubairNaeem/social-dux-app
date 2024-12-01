@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
+import 'package:scp/core/consultant/calendar/view_model/available_slots_view_model.dart';
 import 'package:scp/core/consultant/consultant_dashboard/view/widgets/consultant_footer_buttons.dart';
 import 'package:scp/core/consultant/consultant_dashboard/view/widgets/info_button.dart';
 import 'package:scp/core/consultant/consultant_dashboard/view/widgets/new_card.dart';
@@ -10,6 +11,7 @@ import 'package:scp/core/consultant/services/digital_products/view_models/digita
 import 'package:scp/core/consultant/services/one_to_sessions/view_models/one_to_one_session_view_model.dart';
 import 'package:scp/core/consultant/services/priority_dm_service/view_models/priority_dm_service_view_model.dart';
 import 'package:scp/core/consultant/services/service_packages/view_models/service_packages_view_model.dart';
+import 'package:scp/core/consultant/testimonials/view_model/testimonials_view_model.dart';
 import 'package:scp/theme/colors/colors.dart';
 import 'package:scp/widgets/appBar/primary_app_bar.dart';
 import 'package:scp/widgets/drawer/drawer.dart';
@@ -37,6 +39,12 @@ class ConsultantDashboardState extends ConsumerState<ConsultantDashboard>
         ref.read(digitalProductsOfferedViewModelProvider.notifier).list());
     Future.microtask(
         () => ref.read(servicePackagesViewModelProvider.notifier).list());
+
+    Future.microtask(
+        () => ref.read(availableSlotsViewModelProvider.notifier).list());
+
+    Future.microtask(
+        () => ref.read(testimonialsViewModelProvider.notifier).list());
     _controller = ScrollController();
 
     _animationController = AnimationController(
