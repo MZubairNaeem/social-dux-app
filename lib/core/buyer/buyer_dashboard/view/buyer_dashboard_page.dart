@@ -4,10 +4,13 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_tabler_icons/flutter_tabler_icons.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:scp/constant/path.dart';
+import 'package:scp/core/auth/onboarding/view/splash_page.dart';
 import 'package:scp/core/buyer/buyer_dashboard/view_model/all_services_provider.dart';
 import 'package:scp/core/buyer/buyer_dashboard/view_model/user_provider.dart';
 import 'package:scp/core/buyer/direct_messages/view/chat_room.dart';
+import 'package:scp/main.dart';
 import 'package:scp/theme/colors/colors.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class BuyerDashboardPage extends ConsumerStatefulWidget {
   const BuyerDashboardPage({super.key});
@@ -41,7 +44,7 @@ class BuyerDashboardPageState extends ConsumerState<BuyerDashboardPage> {
 
   @override
   Widget build(BuildContext context) {
-    final userState = ref.watch(userProvider);
+    final userState = ref.watch(userProvider(supabase.auth.currentUser!.id));
     final serviceState = ref.watch(allServiceCategoriesProvider);
     final technologyState =
         ref.watch(allFilterConsultantsProvider(selectedPill));
@@ -107,23 +110,41 @@ class BuyerDashboardPageState extends ConsumerState<BuyerDashboardPage> {
                         ),
                       ],
                     ),
-                    Container(
-                      width: 13.w,
-                      height: 13.w,
-                      decoration: BoxDecoration(
-                        color: const Color(0xFFD9D9D9).withOpacity(0.2),
-                        border: Border.all(
-                          color: primaryColor.withOpacity(0.2),
+                    InkWell(
+                      onTap: () async {
+                        supabase.auth.signOut();
+                        SharedPreferences sharedPreferences =
+                            await SharedPreferences.getInstance();
+                        sharedPreferences.remove('token');
+                        if (context.mounted) {
+                          Navigator.pushAndRemoveUntil(
+                            context,
+                            MaterialPageRoute(
+                                builder: (_) => const SplashPage()),
+                            (route) => false,
+                          );
+                        }
+                      },
+                      child: Container(
+                        width: 13.w,
+                        height: 13.w,
+                        decoration: BoxDecoration(
+                          color: const Color(0xFFD9D9D9).withOpacity(0.2),
+                          border: Border.all(
+                            color: primaryColor.withOpacity(0.2),
+                          ),
+                          shape: BoxShape.circle,
                         ),
-                        shape: BoxShape.circle,
-                      ),
-                      child: Center(
-                        child: ClipOval(
-                          child: Image.network(
-                            '$storageUrl${val.dp}',
-                            width: 26.w,
-                            height: 26.w,
-                            fit: BoxFit.cover,
+                        child: Center(
+                          child: ClipOval(
+                            child: val.dp == null
+                                ? Text(val.name.substring(0, 2))
+                                : Image.network(
+                                    '$storageUrl${val.dp}',
+                                    width: 26.w,
+                                    height: 26.w,
+                                    fit: BoxFit.cover,
+                                  ),
                           ),
                         ),
                       ),
@@ -433,11 +454,20 @@ class BuyerDashboardPageState extends ConsumerState<BuyerDashboardPage> {
                                           topLeft: Radius.circular(10.sp),
                                           topRight: Radius.circular(10.sp),
                                         ),
-                                        child: Image.network(
-                                          storageUrl + val[count].dp,
-                                          width: double.infinity,
-                                          fit: BoxFit.fitWidth,
-                                        ),
+                                        child: val[count].dp == null
+                                            ? SizedBox(
+                                                width: double.infinity,
+                                                child: CircleAvatar(
+                                                  child: Text(val[count]
+                                                      .name
+                                                      .substring(0, 2)),
+                                                ),
+                                              )
+                                            : Image.network(
+                                                storageUrl + val[count].dp!,
+                                                width: double.infinity,
+                                                fit: BoxFit.fitWidth,
+                                              ),
                                       ),
                                     ),
                                     // 20% of the height for the text

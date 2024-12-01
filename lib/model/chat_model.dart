@@ -4,21 +4,26 @@ class ChatModel {
   final String? id;
   final String message;
   final ChatRoomModel? chatRooms;
-  final String? updatedAt;
+  final String userId;
+  final String? createdAt;
 
   const ChatModel({
     this.id,
     required this.message,
     this.chatRooms,
-    this.updatedAt,
+    required this.userId,
+    this.createdAt,
   });
 
   factory ChatModel.fromJson(Map<String, dynamic> json) {
     return ChatModel(
       id: json['id'],
       message: json['message'],
-      chatRooms: json['created_at'],
-      updatedAt: json['updated_at'],
+      chatRooms: json['chat_rooms'] != null
+          ? ChatRoomModel.fromJson(json['chat_rooms'])
+          : null,
+      userId: json['user_id'],
+      createdAt: json['created_at'],
     );
   }
 
@@ -26,8 +31,19 @@ class ChatModel {
     return {
       'id': id,
       'message': message,
-      'created_at': chatRooms,
-      'updated_at': updatedAt,
+      'chat_rooms': chatRooms,
+      'user_id': userId,
+      'created_at': createdAt,
     };
+  }
+
+  factory ChatModel.fromMap(Map<String, dynamic> map) {
+    return ChatModel(
+      id: map['id'],
+      message: map['message'],
+      chatRooms: map['chat_rooms'],
+      userId: map['user_id'],
+      createdAt: map['created_at'],
+    );
   }
 }

@@ -34,7 +34,7 @@ class ConsultantFooterButtons extends StatelessWidget {
           onPressed: () => Navigator.push(
             context,
             MaterialPageRoute(
-              builder: (context) => const PriorityDMs(),
+              builder: (context) => const PriorityDms(),
             ),
           ),
           tooltip: 'Priority DMs',

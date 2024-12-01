@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
+import 'package:scp/theme/colors/colors.dart';
 
 class CustomProgressIndicator extends StatelessWidget {
   final Color color;
@@ -32,3 +33,6 @@ class CustomProgressIndicator extends StatelessWidget {
     );
   }
 }
+
+/// Simple preloader inside a Center widget
+const preloader = Center(child: CustomProgressIndicator(color: primaryColor));

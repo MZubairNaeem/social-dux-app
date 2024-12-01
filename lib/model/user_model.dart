@@ -5,7 +5,7 @@ class UserModel {
   final String id;
   final String name;
   final String email;
-  final String dp;
+  final String? dp;
   final String? emailVerifiedAt;
   final UserProfileModel? userProfiles;
   final List<ServiceModel>? services;
@@ -16,7 +16,7 @@ class UserModel {
     required this.id,
     required this.name,
     required this.email,
-    required this.dp,
+    this.dp,
     this.services,
     this.emailVerifiedAt,
     this.userProfiles,
