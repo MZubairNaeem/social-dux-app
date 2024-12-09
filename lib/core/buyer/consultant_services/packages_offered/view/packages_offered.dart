@@ -1,34 +1,17 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
-import 'package:scp/core/consultant/services/service_packages/view/edit/edit_service_packages.dart';
-import 'package:scp/core/consultant/services/service_packages/view_models/service_packages_view_model.dart';
+import 'package:scp/core/buyer/consultant_services/packages_offered/provider/packages_offered_provider.dart';
 import 'package:scp/theme/colors/colors.dart';
 import 'package:scp/widgets/progressIndicator/progress_indicator.dart';
-import 'package:scp/widgets/snackbar_message/snackbar_message.dart';
 
-class ServicePackages extends ConsumerWidget {
-  const ServicePackages({super.key});
+class PackagesOffered extends ConsumerWidget {
+  final String id;
+  const PackagesOffered({super.key, required this.id});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final priorityDMService = ref.watch(servicePackagesViewModelProvider);
-    ref.listen<String?>(deleteServicePackagesErrorMsgProvider,
-        (previous, next) {
-      if (next != null) {
-        CustomSnackbar.showSnackbar(context, next, false);
-      }
-    });
-
-    ref.listen<String?>(deleteServicePackagesSuccessMsgProvider,
-        (previous, next) {
-      if (next != null) {
-        CustomSnackbar.showSnackbar(context, next, true);
-        ref.read(deleteServicePackagesSuccessMsgProvider.notifier).state = null;
-      }
-    });
-
+    final priorityDMService = ref.watch(packagesOfferedProvider(id));
     return Scaffold(
       body: priorityDMService.when(
         data: (value) {
@@ -167,45 +150,19 @@ class ServicePackages extends ConsumerWidget {
                       ],
                     ),
                     Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      mainAxisAlignment: MainAxisAlignment.end,
                       children: [
-                        const Spacer(),
-                        //menu
-                        Row(
-                          children: [
-                            IconButton(
-                              onPressed: () async {
-                                await ref
-                                    .read(servicePackagesViewModelProvider
-                                        .notifier)
-                                    .delete(
-                                      ref,
-                                      value[index].id!,
-                                    );
-                              },
-                              icon: Icon(
-                                CupertinoIcons.bin_xmark,
-                                color: delete,
-                                size: 16.sp,
-                              ),
+                        TextButton(
+                          onPressed: () {},
+                          child: Text(
+                            'Avail Offer',
+                            style: TextStyle(
+                              fontSize: 15.sp,
+                              fontWeight: FontWeight.bold,
+                              color: accentColor,
                             ),
-                            IconButton(
-                              onPressed: () => Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (_) => EditServicePackages(
-                                    servicePackageModel: value[index],
-                                  ),
-                                ),
-                              ),
-                              icon: Icon(
-                                CupertinoIcons.pen,
-                                color: edit,
-                                size: 16.sp,
-                              ),
-                            ),
-                          ],
-                        ),
+                          ),
+                        )
                       ],
                     ),
                   ],

@@ -1,26 +1,22 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
-import 'package:scp/core/consultant/services/digital_products/view/add/add_digital_product_offered.dart';
-import 'package:scp/core/consultant/services/digital_products/view/list/digital_products_offered.dart';
-import 'package:scp/core/consultant/services/one_to_sessions/view/add/add_one_to_one_session.dart';
-import 'package:scp/core/consultant/services/one_to_sessions/view/list/one_to_one_sessions.dart';
-import 'package:scp/core/consultant/services/priority_dm/view/add/add_priority_dm_service.dart';
-import 'package:scp/core/consultant/services/priority_dm/view/list/priority_dm_services.dart';
-import 'package:scp/core/consultant/services/service_packages/view/add/add_service_packages.dart';
-import 'package:scp/core/consultant/services/service_packages/view/list/service_packages.dart';
+import 'package:scp/core/buyer/consultant_services/digital_products_service/view/digital_products_service.dart';
+import 'package:scp/core/buyer/consultant_services/dm_service/view/dm_service.dart';
+import 'package:scp/core/buyer/consultant_services/one_to_sessions_service/view/one_to_sessions_service.dart';
+import 'package:scp/core/buyer/consultant_services/packages_offered/view/packages_offered.dart';
 import 'package:scp/theme/colors/colors.dart';
 import 'package:scp/widgets/appBar/primary_app_bar.dart';
 
-class Services extends ConsumerStatefulWidget {
-  const Services({super.key});
+class ConsultantServices extends ConsumerStatefulWidget {
+  final String id;
+  const ConsultantServices({super.key, required this.id});
 
   @override
-  ServicesState createState() => ServicesState();
+  ConsultantServicesState createState() => ConsultantServicesState();
 }
 
-class ServicesState extends ConsumerState<Services>
+class ConsultantServicesState extends ConsumerState<ConsultantServices>
     with SingleTickerProviderStateMixin {
   late TabController _tabController;
   int _selectedIndex = 0;
@@ -209,49 +205,15 @@ class ServicesState extends ConsumerState<Services>
           Expanded(
             child: TabBarView(
               controller: _tabController,
-              children: const [
-                OneToOneSessions(),
-                PriorityDmServices(),
-                DigitalProductsOffered(),
-                ServicePackages(),
+              children: [
+                OneToSessionsService(id: widget.id),
+                DmServices(id: widget.id),
+                DigitalProductsService(id: widget.id),
+                PackagesOffered(id: widget.id),
               ],
             ),
           ),
         ],
-      ),
-      floatingActionButton: FloatingActionButton.extended(
-        onPressed: () => Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) => _selectedIndex == 0
-                ? const AddOneToOneSession()
-                : _selectedIndex == 1
-                    ? const AddPriorityDmService()
-                    : _selectedIndex == 2
-                        ? const AddDigitalProductOffered()
-                        : const AddServicePackages(),
-          ),
-        ),
-        label: Text(
-          _selectedIndex == 0
-              ? 'Add One to One Session'
-              : _selectedIndex == 1
-                  ? 'Add Priority DM Service'
-                  : _selectedIndex == 2
-                      ? 'Add Digital Product'
-                      : 'Add Package',
-          style: TextStyle(
-            fontSize: 15.sp,
-            color: white,
-            fontWeight: FontWeight.bold,
-          ),
-        ),
-        icon: Icon(
-          CupertinoIcons.add,
-          color: white,
-          size: 15.sp,
-        ),
-        backgroundColor: green,
       ),
     );
   }

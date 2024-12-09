@@ -4,10 +4,12 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
+import 'package:scp/core/buyer/buyer_dashboard/providers/user_provider.dart';
 import 'package:scp/core/buyer/direct_messages/view/message.dart';
 import 'package:scp/main.dart';
 import 'package:scp/model/chat_room_model.dart';
 import 'package:scp/theme/colors/colors.dart';
+import 'package:scp/utils/format_time.dart';
 import 'package:scp/widgets/appBar/primary_app_bar.dart';
 import 'package:scp/widgets/progressIndicator/progress_indicator.dart';
 
@@ -57,7 +59,6 @@ class PriorityDmsState extends ConsumerState<PriorityDms> {
           builder: (context, snapshot) {
             if (snapshot.hasData) {
               final chatRoom = snapshot.data!;
-              log(chatRoom.toString());
               if (chatRoom.isEmpty) {
                 return const Center(
                   child: Text('Buy a service to start conversation now :)'),
@@ -135,36 +136,68 @@ class PriorityDmsState extends ConsumerState<PriorityDms> {
                                 ),
                                 child: Row(
                                   children: [
-                                    Padding(
-                                      padding: EdgeInsets.only(right: 14.sp),
-                                      child: CircleAvatar(
-                                        radius: 20.sp,
-                                        backgroundColor:
-                                            primaryColor.withOpacity(0.8),
-                                        child: Image.asset(
-                                          'lib/assets/icons/avatar.png',
-                                          height: 10.w,
-                                          width: 10.w,
-                                        ),
-                                      ),
+                                    Consumer(
+                                      builder: (context, watch, child) {
+                                        final userState = ref.watch(
+                                            userProvider(
+                                                chatRoom[index].consultantId!));
+                                        return userState.when(
+                                          data: (data) {
+                                            return Padding(
+                                              padding:
+                                                  EdgeInsets.only(right: 14.sp),
+                                              child: CircleAvatar(
+                                                radius: 20.sp,
+                                                backgroundColor: primaryColor
+                                                    .withOpacity(0.8),
+                                                child: CircleAvatar(
+                                                  child: data.dp == null
+                                                      ? Text(data.name
+                                                          .substring(0, 2))
+                                                      : Image.network(data.dp!),
+                                                ),
+                                              ),
+                                            );
+                                          },
+                                          error: (e, st) {
+                                            return const Text('Error');
+                                          },
+                                          loading: () => preloader,
+                                        );
+                                      },
                                     ),
                                     Column(
                                       crossAxisAlignment:
                                           CrossAxisAlignment.start,
                                       mainAxisSize: MainAxisSize.max,
                                       children: [
-                                        Text(
-                                          'Zubair Naeem',
-                                          style: TextStyle(
-                                            color: textColor,
-                                            fontSize: 16.sp,
-                                            fontWeight: FontWeight.w600,
-                                          ),
+                                        Consumer(
+                                          builder: (context, watch, child) {
+                                            final userState = ref.watch(
+                                                userProvider(chatRoom[index]
+                                                    .consultantId!));
+                                            return userState.when(
+                                              data: (data) {
+                                                return Text(
+                                                  data.name,
+                                                  style: TextStyle(
+                                                    color: textColor,
+                                                    fontSize: 16.sp,
+                                                    fontWeight: FontWeight.w600,
+                                                  ),
+                                                );
+                                              },
+                                              error: (e, st) {
+                                                return const Text('Error');
+                                              },
+                                              loading: () => preloader,
+                                            );
+                                          },
                                         ),
                                         SizedBox(
-                                          width: 50.w,
+                                          width: 40.w,
                                           child: Text(
-                                            'Hey, I need your help with something. Can we talk? 🤔',
+                                            chatRoom[index].lastMessage,
                                             style: TextStyle(
                                               color: hintText,
                                               fontSize: 14.sp,
@@ -175,39 +208,39 @@ class PriorityDmsState extends ConsumerState<PriorityDms> {
                                       ],
                                     ),
                                     const Spacer(),
-                                    IconButton(
-                                      onPressed: () {},
-                                      icon: Icon(
-                                        CupertinoIcons.delete,
-                                        size: 18.sp,
+                                    Text(
+                                      formatTime(chatRoom[index].updatedAt!),
+                                      style: TextStyle(
+                                        color: neutral400,
+                                        fontSize: 14.sp,
                                       ),
-                                    )
+                                    ),
                                   ],
                                 ),
                               ),
                             ),
-                            Positioned(
-                              right: 10.w,
-                              top: 0,
-                              child: Container(
-                                padding: EdgeInsets.symmetric(
-                                  horizontal: 2.w,
-                                  vertical: 1.w,
-                                ),
-                                decoration: BoxDecoration(
-                                  color: red,
-                                  borderRadius: BorderRadius.circular(12.sp),
-                                ),
-                                child: Text(
-                                  'Unread',
-                                  style: TextStyle(
-                                    color: white,
-                                    fontSize: 12.sp,
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                ),
-                              ),
-                            ),
+                            // Positioned(
+                            //   right: 10.w,
+                            //   top: 0,
+                            //   child: Container(
+                            //     padding: EdgeInsets.symmetric(
+                            //       horizontal: 2.w,
+                            //       vertical: 1.w,
+                            //     ),
+                            //     decoration: BoxDecoration(
+                            //       color: red,
+                            //       borderRadius: BorderRadius.circular(12.sp),
+                            //     ),
+                            //     child: Text(
+                            //       'Unread',
+                            //       style: TextStyle(
+                            //         color: white,
+                            //         fontSize: 12.sp,
+                            //         fontWeight: FontWeight.bold,
+                            //       ),
+                            //     ),
+                            //   ),
+                            // ),
                           ],
                         ),
                       ],

@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_tabler_icons/flutter_tabler_icons.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
-import 'package:scp/core/buyer/buyer_dashboard/view_model/user_provider.dart';
+import 'package:scp/core/buyer/buyer_dashboard/providers/user_provider.dart';
 import 'package:scp/main.dart';
 import 'package:scp/model/chat_model.dart';
 import 'package:scp/theme/colors/colors.dart';

@@ -5,8 +5,11 @@ import 'package:flutter_tabler_icons/flutter_tabler_icons.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:scp/constant/path.dart';
 import 'package:scp/core/auth/onboarding/view/splash_page.dart';
-import 'package:scp/core/buyer/buyer_dashboard/view_model/all_services_provider.dart';
-import 'package:scp/core/buyer/buyer_dashboard/view_model/user_provider.dart';
+import 'package:scp/core/buyer/bookings/view/buyer_bookings.dart';
+import 'package:scp/core/buyer/bookings/view_models/buyer_bookings_view_model.dart';
+import 'package:scp/core/buyer/buyer_dashboard/providers/all_services_provider.dart';
+import 'package:scp/core/buyer/buyer_dashboard/providers/user_provider.dart';
+import 'package:scp/core/buyer/consultant_services/consultant_services.dart';
 import 'package:scp/core/buyer/direct_messages/view/chat_room.dart';
 import 'package:scp/main.dart';
 import 'package:scp/theme/colors/colors.dart';
@@ -33,10 +36,9 @@ class BuyerDashboardPageState extends ConsumerState<BuyerDashboardPage> {
   void initState() {
     super.initState();
     // Trigger the list() function when the widget is first built //for islands
-    // Future.microtask(() => {
-    //       log('adadada'),
-    //       ref.read(customerRequestViewModelProvider.notifier).list(),
-    //     });
+    Future.microtask(() => {
+          ref.read(buyerBookingsViewModelProvider.notifier).list(),
+        });
   }
 
   // Track the currently selected pill
@@ -225,6 +227,20 @@ class BuyerDashboardPageState extends ConsumerState<BuyerDashboardPage> {
                     textColor: textColor,
                     iconColor: green,
                     icon: TablerIcons.message_dots,
+                  ),
+                  SizedBox(width: 3.w),
+                  InkWellButton(
+                    onTap: () => Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (_) => const BuyerBookings(),
+                      ),
+                    ),
+                    text: 'Services Purchased',
+                    splashColor: red.withOpacity(0.1),
+                    textColor: textColor,
+                    iconColor: red,
+                    icon: TablerIcons.category,
                   ),
                   SizedBox(width: 3.w),
                   // InkWell(
@@ -430,7 +446,13 @@ class BuyerDashboardPageState extends ConsumerState<BuyerDashboardPage> {
                       itemBuilder: (context, count) {
                         return InkWell(
                           splashColor: primaryColor.withOpacity(0.1),
-                          onTap: () {},
+                          onTap: () => Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (_) =>
+                                  ConsultantServices(id: val[count].id),
+                            ),
+                          ),
                           child: Stack(
                             children: [
                               Container(

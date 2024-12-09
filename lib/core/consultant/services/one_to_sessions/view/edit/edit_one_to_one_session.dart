@@ -169,56 +169,6 @@ class EditOneToOneSessionState extends ConsumerState<EditOneToOneSession> {
                   Align(
                     alignment: Alignment.centerLeft,
                     child: Text(
-                      'Duration (mins)',
-                      style: TextStyle(
-                        color: textColor,
-                        fontSize: 16.sp,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                  ),
-                  SizedBox(height: 1.h),
-                  //outline textfield
-                  TextFormField(
-                    controller: duration,
-                    validator: (value) {
-                      if (value!.isEmpty) {
-                        return 'Duration cannot be empty';
-                      }
-                      return null;
-                    },
-                    keyboardType: TextInputType.number,
-                    decoration: InputDecoration(
-                      hintText: 'Enter duration in mins',
-                      contentPadding: EdgeInsets.symmetric(
-                        vertical: 10.sp,
-                        horizontal: 12.sp,
-                      ),
-                      border: InputBorder.none,
-                      focusedBorder: OutlineInputBorder(
-                        borderSide: const BorderSide(color: primaryColor),
-                        borderRadius: BorderRadius.circular(12.sp),
-                      ),
-                      enabledBorder: OutlineInputBorder(
-                        borderSide: BorderSide(color: hintText),
-                        borderRadius: BorderRadius.circular(12.sp),
-                      ),
-                      errorBorder: OutlineInputBorder(
-                        borderSide: const BorderSide(color: Colors.red),
-                        borderRadius: BorderRadius.circular(12.sp),
-                      ),
-                      focusedErrorBorder: OutlineInputBorder(
-                        borderSide: const BorderSide(color: primaryColor),
-                        borderRadius: BorderRadius.circular(12.sp),
-                      ),
-                    ),
-                    cursorColor: primaryColorDark,
-                  ),
-                  SizedBox(height: 2.h),
-                  //price
-                  Align(
-                    alignment: Alignment.centerLeft,
-                    child: Text(
                       'Price (Pkr)',
                       style: TextStyle(
                         color: textColor,

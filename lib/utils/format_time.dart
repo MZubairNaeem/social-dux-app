@@ -1,9 +1,6 @@
-import 'dart:developer';
-
 import 'package:intl/intl.dart';
 
 String formatTime(String inputDate) {
-  log(inputDate);
   final DateTime inputTime =
       DateTime.parse(inputDate).toUtc(); // Parse input and convert to UTC
   final DateTime convertedTime =

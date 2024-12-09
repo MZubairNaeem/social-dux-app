@@ -2,40 +2,26 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
-import 'package:scp/core/consultant/services/one_to_sessions/view/edit/edit_one_to_one_session.dart';
-import 'package:scp/core/consultant/services/one_to_sessions/view_models/one_to_one_session_view_model.dart';
+import 'package:scp/core/buyer/consultant_services/digital_products_service/provider/digital_products_provider.dart';
+import 'package:scp/core/buyer/consultant_services/digital_products_service/view/digital_product_purchase.dart';
 import 'package:scp/theme/colors/colors.dart';
 import 'package:scp/widgets/progressIndicator/progress_indicator.dart';
-import 'package:scp/widgets/snackbar_message/snackbar_message.dart';
 
-class OneToOneSessions extends ConsumerWidget {
-  const OneToOneSessions({super.key});
+class DigitalProductsService extends ConsumerWidget {
+  final String id;
+  const DigitalProductsService({super.key, required this.id});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final oneToOneSessions = ref.watch(oneToOneSessionViewModelProvider);
-    ref.listen<String?>(deleteoneToOneSessionErrorMsgProvider,
-        (previous, next) {
-      if (next != null) {
-        CustomSnackbar.showSnackbar(context, next, false);
-      }
-    });
-
-    ref.listen<String?>(deleteoneToOneSessionSuccessMsgProvider,
-        (previous, next) {
-      if (next != null) {
-        CustomSnackbar.showSnackbar(context, next, true);
-        ref.read(deleteoneToOneSessionSuccessMsgProvider.notifier).state = null;
-      }
-    });
+    final digitalProductsOfferedState = ref.watch(digitalProductsProvider(id));
 
     return Scaffold(
-      body: oneToOneSessions.when(
+      body: digitalProductsOfferedState.when(
         data: (value) {
           if (value.isEmpty) {
             return Center(
               child: Text(
-                'No One To One Session Service Found',
+                'No Digital Product Found',
                 style: TextStyle(
                   fontSize: 16.sp,
                   fontWeight: FontWeight.bold,
@@ -84,40 +70,6 @@ class OneToOneSessions extends ConsumerWidget {
                       ),
                     ),
                     SizedBox(height: 1.h),
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children:
-                          value[index].availableSlots!.map<Widget>((slot) {
-                        return Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              "${slot.startTime} - ${slot.endTime}",
-                              textAlign: TextAlign.start,
-                              style: TextStyle(
-                                fontSize: 15.sp,
-                                color: textColor,
-                                wordSpacing: 0.1,
-                                letterSpacing: 0.1,
-                              ),
-                            ),
-                            if (slot.availableDays.isNotEmpty)
-                              for (var day in slot.availableDays)
-                                Text(
-                                  day.day,
-                                  textAlign: TextAlign.start,
-                                  style: TextStyle(
-                                    fontSize: 14.sp,
-                                    color: textColor.withOpacity(0.7),
-                                    wordSpacing: 0.1,
-                                    letterSpacing: 0.1,
-                                  ),
-                                ),
-                          ],
-                        );
-                      }).toList(),
-                    ),
-                    SizedBox(height: 1.h),
                     Row(
                       children: [
                         Row(
@@ -143,6 +95,25 @@ class OneToOneSessions extends ConsumerWidget {
                               ),
                             ),
                             SizedBox(width: 3.w),
+                            Container(
+                              padding: EdgeInsets.symmetric(
+                                  horizontal: 3.w, vertical: 2.w),
+                              decoration: BoxDecoration(
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(10.w)),
+                                border: Border.all(
+                                  color: primaryColor,
+                                  width: 1,
+                                ),
+                              ),
+                              child: Text(
+                                value[index].duration ?? '',
+                                style: TextStyle(
+                                  fontSize: 15.sp,
+                                  color: primaryColor,
+                                ),
+                              ),
+                            ),
                           ],
                         ),
                         const Spacer(),
@@ -151,41 +122,48 @@ class OneToOneSessions extends ConsumerWidget {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        const Spacer(),
+                        Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Icon(
+                              CupertinoIcons.eye,
+                              color: textColor,
+                              size: 16.sp,
+                            ),
+                            SizedBox(width: 2.w),
+                            Text(
+                              'Public',
+                              style: TextStyle(
+                                fontSize: 15.sp,
+                                color: textColor,
+                              ),
+                            ),
+                          ],
+                        ),
                         //menu
                         Row(
+                          mainAxisAlignment: MainAxisAlignment.end,
                           children: [
-                            IconButton(
-                              onPressed: () async {
-                                await ref
-                                    .read(oneToOneSessionViewModelProvider
-                                        .notifier)
-                                    .delete(
-                                      ref,
-                                      value[index].id!,
-                                    );
-                              },
-                              icon: Icon(
-                                CupertinoIcons.bin_xmark,
-                                color: delete,
-                                size: 16.sp,
-                              ),
-                            ),
-                            IconButton(
-                              onPressed: () => Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (_) => EditOneToOneSession(
-                                    serviceModel: value[index],
+                            TextButton(
+                              onPressed: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (_) => DigitalProductPurchase(
+                                      service: value[index],
+                                    ),
                                   ),
+                                );
+                              },
+                              child: Text(
+                                'Buy Now',
+                                style: TextStyle(
+                                  fontSize: 15.sp,
+                                  fontWeight: FontWeight.bold,
+                                  color: accentColor,
                                 ),
                               ),
-                              icon: Icon(
-                                CupertinoIcons.pen,
-                                color: edit,
-                                size: 16.sp,
-                              ),
-                            ),
+                            )
                           ],
                         ),
                       ],

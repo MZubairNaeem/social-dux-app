@@ -7,36 +7,44 @@ class PrimaryAppBar extends StatelessWidget {
   final String title;
   final bool icon;
   final Function()? onPressed;
-  const PrimaryAppBar(
-      {super.key, required this.title, required this.icon, this.onPressed});
+  final Color color;
+  final Color itemColor;
+  const PrimaryAppBar({
+    super.key,
+    required this.title,
+    required this.icon,
+    this.onPressed,
+    this.color = primaryColor,
+    this.itemColor = white,
+  });
 
   @override
   Widget build(BuildContext context) {
     return AppBar(
-      backgroundColor: primaryColor,
+      backgroundColor: color,
       leading: icon
           ? IconButton(
               onPressed: () {
                 Navigator.pop(context);
               },
-              icon: const Icon(
+              icon: Icon(
                 CupertinoIcons.back,
-                color: white,
+                color: itemColor,
               ),
             )
           : IconButton(
               onPressed: () {
                 onPressed!();
               },
-              icon: const Icon(
+              icon: Icon(
                 CupertinoIcons.bars,
-                color: white,
+                color: itemColor,
               ),
             ),
       title: Text(
         title,
         style: TextStyle(
-          color: white,
+          color: itemColor,
           fontSize: 16.sp,
           letterSpacing: 1,
           fontWeight: FontWeight.bold,

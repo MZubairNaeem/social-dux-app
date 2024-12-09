@@ -1,34 +1,20 @@
-import 'package:flutter/cupertino.dart';
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
-import 'package:scp/core/consultant/services/priority_dm_service/view/edit/edit_priority_dm_service.dart';
-import 'package:scp/core/consultant/services/priority_dm_service/view_models/priority_dm_service_view_model.dart';
+import 'package:scp/core/buyer/consultant_services/dm_service/provider/priority_dm_service_provider.dart';
+import 'package:scp/core/buyer/consultant_services/dm_service/view/dm_service_booking.dart';
 import 'package:scp/theme/colors/colors.dart';
 import 'package:scp/widgets/progressIndicator/progress_indicator.dart';
-import 'package:scp/widgets/snackbar_message/snackbar_message.dart';
 
-class PriorityDmServices extends ConsumerWidget {
-  const PriorityDmServices({super.key});
+class DmServices extends ConsumerWidget {
+  final String id;
+  const DmServices({super.key, required this.id});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final priorityDMService = ref.watch(priorityDmServiceViewModelProvider);
-    ref.listen<String?>(deletePriorityDmServiceErrorMsgProvider,
-        (previous, next) {
-      if (next != null) {
-        CustomSnackbar.showSnackbar(context, next, false);
-      }
-    });
-
-    ref.listen<String?>(deletePriorityDmServiceSuccessMsgProvider,
-        (previous, next) {
-      if (next != null) {
-        CustomSnackbar.showSnackbar(context, next, true);
-        ref.read(deletePriorityDmServiceSuccessMsgProvider.notifier).state =
-            null;
-      }
-    });
+    final priorityDMService = ref.watch(priorityDMServiceProvider(id));
 
     return Scaffold(
       body: priorityDMService.when(
@@ -135,62 +121,25 @@ class PriorityDmServices extends ConsumerWidget {
                       ],
                     ),
                     Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      mainAxisAlignment: MainAxisAlignment.end,
                       children: [
-                        Row(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            Icon(
-                              CupertinoIcons.eye,
-                              color: textColor,
-                              size: 16.sp,
+                        TextButton(
+                          onPressed: () => Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (_) =>
+                                  DmServiceBooking(service: value[index]),
                             ),
-                            SizedBox(width: 2.w),
-                            Text(
-                              'Public',
-                              style: TextStyle(
-                                fontSize: 15.sp,
-                                color: textColor,
-                              ),
+                          ),
+                          child: Text(
+                            'Start Now',
+                            style: TextStyle(
+                              fontSize: 15.sp,
+                              fontWeight: FontWeight.bold,
+                              color: accentColor,
                             ),
-                          ],
-                        ),
-                        //menu
-                        Row(
-                          children: [
-                            IconButton(
-                              onPressed: () async {
-                                await ref
-                                    .read(priorityDmServiceViewModelProvider
-                                        .notifier)
-                                    .delete(
-                                      ref,
-                                      value[index].id!,
-                                    );
-                              },
-                              icon: Icon(
-                                CupertinoIcons.bin_xmark,
-                                color: delete,
-                                size: 16.sp,
-                              ),
-                            ),
-                            IconButton(
-                              onPressed: () => Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (_) => EditPriorityDmService(
-                                    serviceModel: value[index],
-                                  ),
-                                ),
-                              ),
-                              icon: Icon(
-                                CupertinoIcons.pen,
-                                color: edit,
-                                size: 16.sp,
-                              ),
-                            ),
-                          ],
-                        ),
+                          ),
+                        )
                       ],
                     ),
                   ],

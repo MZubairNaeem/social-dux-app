@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:scp/main.dart';
@@ -25,11 +23,16 @@ class AvailableSlotsViewModel
           for (var item in value) {
             availableSlotModel.add(AvailableSlotModel.fromJson(item));
           }
+
+          // Filter slots where service_id is not null
+          availableSlotModel = availableSlotModel
+              .where((slot) => slot.serviceId == null)
+              .toList();
+
           state = AsyncData(availableSlotModel);
         },
       );
     } on PostgrestException catch (e, st) {
-      log(e.toString());
       state = AsyncError(e.toString(), st);
     }
   }
@@ -71,7 +74,6 @@ class AvailableSlotsViewModel
       ref.read(createAvailableSlotSuccessMsgProvider.notifier).state =
           'Available Slot Created Successful!';
     } on PostgrestException catch (e) {
-      log(e.toString());
       state = AsyncData(previousSlots);
       ref.read(createAvailableSlotErrorMsgProvider.notifier).state =
           e.toString();

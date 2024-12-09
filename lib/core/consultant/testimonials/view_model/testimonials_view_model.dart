@@ -19,7 +19,6 @@ class TestimonialsViewModel
           .eq('user_id', supabase.auth.currentUser!.id)
           .then(
         (value) {
-          log(value.toString());
           for (var item in value) {
             testimonialModel.add(TestimonialModel.fromJson(item));
           }
@@ -27,7 +26,6 @@ class TestimonialsViewModel
         },
       );
     } on PostgrestException catch (e, st) {
-      log(e.toString());
       state = AsyncError(e.toString(), st);
     }
   }

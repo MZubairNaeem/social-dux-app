@@ -149,41 +149,42 @@ class CalendarState extends ConsumerState<Calendar> {
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceBetween,
                                 children: [
-                                  IconButton(
-                                    splashColor: primaryColor,
-                                    onPressed: () async {
-                                      await ref
-                                          .read(availableSlotsViewModelProvider
-                                              .notifier)
-                                          .statusChange(
-                                            !value[index].status,
-                                            value[index].id!,
-                                            ref,
-                                          );
-                                    },
-                                    icon: Row(
-                                      mainAxisSize: MainAxisSize.min,
-                                      children: [
-                                        Icon(
-                                          value[index].status
-                                              ? CupertinoIcons.eye
-                                              : CupertinoIcons.eye_slash_fill,
-                                          color: textColor,
-                                          size: 16.sp,
-                                        ),
-                                        SizedBox(width: 2.w),
-                                        Text(
-                                          value[index].status
-                                              ? 'Active'
-                                              : 'Inactive',
-                                          style: TextStyle(
-                                            fontSize: 15.sp,
-                                            color: textColor,
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
+                                  // IconButton(
+                                  //   splashColor: primaryColor,
+                                  //   onPressed: () async {
+                                  //     await ref
+                                  //         .read(availableSlotsViewModelProvider
+                                  //             .notifier)
+                                  //         .statusChange(
+                                  //           !value[index].status,
+                                  //           value[index].id!,
+                                  //           ref,
+                                  //         );
+                                  //   },
+                                  //   icon: Row(
+                                  //     mainAxisSize: MainAxisSize.min,
+                                  //     children: [
+                                  //       Icon(
+                                  //         value[index].status
+                                  //             ? CupertinoIcons.eye
+                                  //             : CupertinoIcons.eye_slash_fill,
+                                  //         color: textColor,
+                                  //         size: 16.sp,
+                                  //       ),
+                                  //       SizedBox(width: 2.w),
+                                  //       Text(
+                                  //         value[index].status
+                                  //             ? 'Active'
+                                  //             : 'Inactive',
+                                  //         style: TextStyle(
+                                  //           fontSize: 15.sp,
+                                  //           color: textColor,
+                                  //         ),
+                                  //       ),
+                                  //     ],
+                                  //   ),
+                                  // ),
+                                  const Spacer(),
                                   //menu
                                   Row(
                                     children: [

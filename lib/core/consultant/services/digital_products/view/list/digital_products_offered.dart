@@ -140,24 +140,7 @@ class DigitalProductsOffered extends ConsumerWidget {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Row(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            Icon(
-                              CupertinoIcons.eye,
-                              color: textColor,
-                              size: 16.sp,
-                            ),
-                            SizedBox(width: 2.w),
-                            Text(
-                              'Public',
-                              style: TextStyle(
-                                fontSize: 15.sp,
-                                color: textColor,
-                              ),
-                            ),
-                          ],
-                        ),
+                        const Spacer(),
                         //menu
                         Row(
                           children: [

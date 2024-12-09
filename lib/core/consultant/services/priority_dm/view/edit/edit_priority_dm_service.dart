@@ -1,21 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
-import 'package:scp/core/consultant/services/priority_dm_service/view_models/priority_dm_service_view_model.dart';
+import 'package:scp/core/consultant/services/priority_dm/view_models/priority_dm_service_view_model.dart';
 import 'package:scp/model/service_model.dart';
 import 'package:scp/theme/colors/colors.dart';
 import 'package:scp/widgets/appBar/primary_app_bar.dart';
 import 'package:scp/widgets/progressIndicator/progress_indicator.dart';
 import 'package:scp/widgets/snackbar_message/snackbar_message.dart';
 
-class AddPriorityDmService extends ConsumerStatefulWidget {
-  const AddPriorityDmService({super.key});
+class EditPriorityDmService extends ConsumerStatefulWidget {
+  final ServiceModel serviceModel;
+  const EditPriorityDmService({super.key, required this.serviceModel});
 
   @override
-  AddPriorityDmServiceState createState() => AddPriorityDmServiceState();
+  EditPriorityDmServiceState createState() => EditPriorityDmServiceState();
 }
 
-class AddPriorityDmServiceState extends ConsumerState<AddPriorityDmService> {
+class EditPriorityDmServiceState extends ConsumerState<EditPriorityDmService> {
   final title = TextEditingController();
   final description = TextEditingController();
   final price = TextEditingController();
@@ -23,21 +24,33 @@ class AddPriorityDmServiceState extends ConsumerState<AddPriorityDmService> {
   final formKey = GlobalKey<FormState>();
 
   @override
+  void initState() {
+    super.initState();
+    title.text = widget.serviceModel.title;
+    description.text = widget.serviceModel.description ?? '';
+    price.text = widget.serviceModel.price.toString();
+    duration.text =
+        widget.serviceModel.duration.toString().replaceAll(' days', '');
+  }
+
+  @override
   Widget build(BuildContext context) {
     final priorityDMServiceState =
         ref.watch(priorityDmServiceViewModelProvider);
-    ref.listen<String?>(createPriorityDmServiceErrorMsgProvider,
+    ref.listen<String?>(updatePriorityDmServiceErrorMsgProvider,
         (previous, next) {
       if (next != null) {
         CustomSnackbar.showSnackbar(context, next, false);
       }
     });
 
-    ref.listen<String?>(createPriorityDmServiceSuccessMsgProvider,
+    ref.listen<String?>(updatePriorityDmServiceSuccessMsgProvider,
         (previous, next) {
       if (next != null) {
         Navigator.of(context).pop();
         CustomSnackbar.showSnackbar(context, next, true);
+        ref.read(updatePriorityDmServiceSuccessMsgProvider.notifier).state =
+            null;
       }
     });
 
@@ -45,7 +58,7 @@ class AddPriorityDmServiceState extends ConsumerState<AddPriorityDmService> {
       appBar: PreferredSize(
         preferredSize: Size.fromHeight(8.h),
         child: const PrimaryAppBar(
-          title: 'Add Priority DM Service',
+          title: 'Edit Priority DM Service',
           icon: true,
         ),
       ),
@@ -262,8 +275,9 @@ class AddPriorityDmServiceState extends ConsumerState<AddPriorityDmService> {
                       }
                       ref
                           .read(priorityDmServiceViewModelProvider.notifier)
-                          .create(
+                          .update(
                             ServiceModel(
+                              id: widget.serviceModel.id,
                               title: title.text.trim(),
                               description: description.text.trim(),
                               price: int.parse(price.text.trim()),
@@ -300,7 +314,7 @@ class AddPriorityDmServiceState extends ConsumerState<AddPriorityDmService> {
                             color: white,
                           )
                         : Text(
-                            'Create Service',
+                            'Update Service',
                             style: TextStyle(
                               fontSize: 16.sp,
                               color: white,

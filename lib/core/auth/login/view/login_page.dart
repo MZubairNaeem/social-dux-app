@@ -10,7 +10,6 @@ import 'package:scp/core/auth/register/view/register_page.dart';
 import 'package:scp/core/buyer/buyer_dashboard/view/buyer_dashboard_page.dart';
 import 'package:scp/model/auth_user_model.dart';
 import 'package:scp/theme/colors/colors.dart';
-import 'package:scp/widgets/buttons/custom_outline_button.dart';
 import 'package:scp/widgets/progressIndicator/progress_indicator.dart';
 import 'package:scp/widgets/snackbar_message/snackbar_message.dart';
 
@@ -98,50 +97,50 @@ class LoginPageState extends ConsumerState<LoginPage> {
                 socialDuxLogo,
                 height: 25.h,
               ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  CustomOutlineButton(
-                    text: 'Sign in with Google',
-                    icon: googleLogo,
-                    onPressed: () {},
-                  ),
-                  SizedBox(width: 10.sp),
-                  CustomOutlineButton(
-                    text: 'Sign in with FB',
-                    icon: fbLogo,
-                    onPressed: () {},
-                  ),
-                ],
-              ),
+              // Row(
+              //   mainAxisAlignment: MainAxisAlignment.center,
+              //   children: [
+              //     CustomOutlineButton(
+              //       text: 'Sign in with Google',
+              //       icon: googleLogo,
+              //       onPressed: () {},
+              //     ),
+              //     SizedBox(width: 10.sp),
+              //     CustomOutlineButton(
+              //       text: 'Sign in with FB',
+              //       icon: fbLogo,
+              //       onPressed: () {},
+              //     ),
+              //   ],
+              // ),
               //horizontal line
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Container(
-                    margin: EdgeInsets.symmetric(vertical: 2.h),
-                    height: 0.1.h,
-                    width: 25.w,
-                    color: hintText.withOpacity(0.1),
-                  ),
-                  Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 14.sp),
-                    child: Text(
-                      'or sign in with',
-                      style: TextStyle(
-                        color: textColor,
-                        fontSize: 16.sp,
-                      ),
-                    ),
-                  ),
-                  Container(
-                    margin: EdgeInsets.symmetric(vertical: 2.h),
-                    height: 0.1.h,
-                    width: 25.w,
-                    color: hintText.withOpacity(0.1),
-                  ),
-                ],
-              ),
+              // Row(
+              //   mainAxisAlignment: MainAxisAlignment.center,
+              //   children: [
+              //     Container(
+              //       margin: EdgeInsets.symmetric(vertical: 2.h),
+              //       height: 0.1.h,
+              //       width: 25.w,
+              //       color: hintText.withOpacity(0.1),
+              //     ),
+              //     Padding(
+              //       padding: EdgeInsets.symmetric(horizontal: 14.sp),
+              //       child: Text(
+              //         'or sign in with',
+              //         style: TextStyle(
+              //           color: textColor,
+              //           fontSize: 16.sp,
+              //         ),
+              //       ),
+              //     ),
+              //     Container(
+              //       margin: EdgeInsets.symmetric(vertical: 2.h),
+              //       height: 0.1.h,
+              //       width: 25.w,
+              //       color: hintText.withOpacity(0.1),
+              //     ),
+              //   ],
+              // ),
               //email
               Form(
                 key: _formKey,

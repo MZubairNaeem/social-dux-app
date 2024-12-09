@@ -57,7 +57,6 @@ class ChatRoomState extends ConsumerState<ChatRoom> {
           builder: (context, snapshot) {
             if (snapshot.hasData) {
               final chatRoom = snapshot.data!;
-              log(chatRoom.toString());
               if (chatRoom.isEmpty) {
                 return const Center(
                   child: Text('Buy a service to start conversation now :)'),

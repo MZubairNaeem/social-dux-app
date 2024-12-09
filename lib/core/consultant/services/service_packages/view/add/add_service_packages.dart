@@ -5,7 +5,7 @@ import 'package:flutter_tabler_icons/flutter_tabler_icons.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:scp/core/consultant/services/digital_products/view_models/digital_products_offered_view_model.dart';
 import 'package:scp/core/consultant/services/one_to_sessions/view_models/one_to_one_session_view_model.dart';
-import 'package:scp/core/consultant/services/priority_dm_service/view_models/priority_dm_service_view_model.dart';
+import 'package:scp/core/consultant/services/priority_dm/view_models/priority_dm_service_view_model.dart';
 import 'package:scp/core/consultant/services/service_packages/view_models/service_packages_view_model.dart';
 import 'package:scp/model/service_model.dart';
 import 'package:scp/model/service_package_model.dart';

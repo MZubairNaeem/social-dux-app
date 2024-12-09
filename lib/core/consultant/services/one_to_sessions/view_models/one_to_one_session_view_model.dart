@@ -13,7 +13,7 @@ class OneToOneSessionViewModel
       List<ServiceModel> serviceModel = [];
       await supabase
           .from('services')
-          .select('*, user_id(*)')
+          .select('*, user_id(*), available_slots(*, available_days(*))')
           .eq('service_type', serviceTypeToString(ServiceType.oneToOneSession))
           .eq('user_id', supabase.auth.currentUser!.id)
           .then(
@@ -30,7 +30,8 @@ class OneToOneSessionViewModel
   }
 
   // Create a new job (Create)
-  Future<void> create(ServiceModel serviceModel, WidgetRef ref) async {
+  Future<void> create(
+      ServiceModel serviceModel, WidgetRef ref, String slotId) async {
     // Cache the current state before loading
     final previousSessions = state.value ?? [];
     try {
@@ -46,6 +47,9 @@ class OneToOneSessionViewModel
       }).select('*, user_id(*)');
 
       var newSession = ServiceModel.fromJson(res.first);
+      await supabase
+          .from('available_slots')
+          .update({'service_id': newSession.id}).eq('id', slotId);
       List<ServiceModel> updatedList = [
         ...previousSessions, // Retain previous jobs
         newSession, // Add the new member

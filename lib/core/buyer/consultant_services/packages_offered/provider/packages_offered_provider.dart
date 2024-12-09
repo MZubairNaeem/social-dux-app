@@ -1,0 +1,27 @@
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:scp/main.dart';
+import 'package:scp/model/service_package_model.dart';
+
+final packagesOfferedProvider =
+    FutureProvider.family<List<ServicePackageModel>, String>(
+  (ref, id) async {
+    List<ServicePackageModel> serviceModel = [];
+    try {
+      await supabase
+          .from('service_packages')
+          .select(
+              '*, user_id(*), one_to_one_session_service_id(*), digital_product_service_id(*), priority_dm_service_id(*)')
+          .eq('user_id', id)
+          .then(
+        (value) {
+          for (var item in value) {
+            serviceModel.add(ServicePackageModel.fromJson(item));
+          }
+        },
+      );
+      return serviceModel;
+    } catch (e) {
+      return serviceModel;
+    }
+  },
+);

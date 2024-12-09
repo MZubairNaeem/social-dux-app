@@ -109,7 +109,7 @@ class AddAvailableSlotsState extends ConsumerState<AddAvailableSlots> {
                   Align(
                     alignment: Alignment.centerLeft,
                     child: Text(
-                      'Available Days',
+                      'Coming Available Days',
                       style: TextStyle(
                         color: textColor,
                         fontSize: 16.sp,
