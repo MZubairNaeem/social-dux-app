@@ -15,11 +15,13 @@ class TestimonialsViewModel
       List<TestimonialModel> testimonialModel = [];
       await supabase
           .from('testimonials')
-          .select('*, user_id(*), service_id(*)')
-          .eq('user_id', supabase.auth.currentUser!.id)
+          .select('*, user_id(*), service_id(*, users(*))')
+          .eq('service_id.users.id', supabase.auth.currentUser!.id)
           .then(
         (value) {
           for (var item in value) {
+            log('testimonials');
+            log(item.toString());
             testimonialModel.add(TestimonialModel.fromJson(item));
           }
           state = AsyncData(testimonialModel);

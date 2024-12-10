@@ -7,6 +7,7 @@ class BookingsModel {
   final String? endTime;
   final ServiceModel? serviceId;
   final UserModel? buyerId;
+  final String? createdAt;
 
   const BookingsModel({
     this.id,
@@ -14,6 +15,7 @@ class BookingsModel {
     this.endTime,
     this.serviceId,
     this.buyerId,
+    this.createdAt,
   });
 
   factory BookingsModel.fromJson(Map<String, dynamic> json) {
@@ -27,6 +29,7 @@ class BookingsModel {
       buyerId: json['buyer_id'] != null
           ? UserModel.fromJson(json['buyer_id'])
           : null,
+      createdAt: json['created_at'],
     );
   }
 
@@ -37,6 +40,7 @@ class BookingsModel {
       'end_time': endTime,
       'service_id': serviceId?.toJson(),
       'buyer_id': buyerId?.toJson(),
+      'created_at': createdAt,
     };
   }
 }

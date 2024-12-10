@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:scp/main.dart';
 import 'package:scp/model/user_model.dart';
@@ -13,12 +15,14 @@ final allServiceCategoriesProvider = FutureProvider<List<UserModel>>(
           .then(
         (value) {
           for (var item in value) {
+            log(item.toString());
             serviceModel.add(UserModel.fromJson(item));
           }
         },
       );
       return serviceModel;
     } catch (e) {
+      log(e.toString());
       return serviceModel;
     }
   },

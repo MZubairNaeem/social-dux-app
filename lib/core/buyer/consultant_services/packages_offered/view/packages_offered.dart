@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:scp/core/buyer/consultant_services/packages_offered/provider/packages_offered_provider.dart';
+import 'package:scp/core/buyer/consultant_services/packages_offered/view/package_offered_booking.dart';
 import 'package:scp/theme/colors/colors.dart';
 import 'package:scp/widgets/progressIndicator/progress_indicator.dart';
 
@@ -153,7 +154,16 @@ class PackagesOffered extends ConsumerWidget {
                       mainAxisAlignment: MainAxisAlignment.end,
                       children: [
                         TextButton(
-                          onPressed: () {},
+                          onPressed: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (_) => PackageOfferedBooking(
+                                  service: value[index],
+                                ),
+                              ),
+                            );
+                          },
                           child: Text(
                             'Avail Offer',
                             style: TextStyle(

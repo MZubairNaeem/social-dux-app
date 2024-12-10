@@ -4,6 +4,7 @@ import 'package:flutter_tabler_icons/flutter_tabler_icons.dart';
 import 'package:intl/intl.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:scp/core/buyer/bookings/view_models/buyer_bookings_view_model.dart';
+import 'package:scp/core/buyer/testemonials/view/give_testemonials.dart';
 import 'package:scp/main.dart';
 import 'package:scp/model/service_model.dart';
 import 'package:scp/theme/colors/colors.dart';
@@ -209,7 +210,14 @@ class BuyerBookings extends ConsumerWidget {
                             ),
                           ),
                         TextButton(
-                          onPressed: () {},
+                          onPressed: () => Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => GiveTestemonials(
+                                booking: value[index],
+                              ),
+                            ),
+                          ),
                           child: Text(
                             'Give Testimonial',
                             style: TextStyle(
@@ -218,7 +226,7 @@ class BuyerBookings extends ConsumerWidget {
                               color: accentColor,
                             ),
                           ),
-                        )
+                        ),
                       ],
                     ),
                   ],

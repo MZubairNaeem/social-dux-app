@@ -47,8 +47,10 @@ class BuyerBookingsViewModel
           ...previousBooking, // Retain previous jobs
           newSession, // Add the new member
         ];
-        await supabase.from('available_slots').update(
-            {'buyer_id': supabase.auth.currentUser!.id}).eq('id', slotId!);
+        if (slotId != null) {
+          await supabase.from('available_slots').update(
+              {'buyer_id': supabase.auth.currentUser!.id}).eq('id', slotId);
+        }
         // Update the state with the new list
         state = AsyncData(updatedList);
         // Pop the screen and show a success message

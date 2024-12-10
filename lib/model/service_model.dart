@@ -1,4 +1,5 @@
 import 'package:scp/model/available_slot_model.dart';
+import 'package:scp/model/bookings_model.dart';
 import 'package:scp/model/user_model.dart';
 
 class ServiceModel {
@@ -6,11 +7,12 @@ class ServiceModel {
   final String title;
   final String? description;
   final String? file;
-  final int price;
+  final dynamic price;
   final String? duration;
   final UserModel? users;
   final ServiceType? serviceType;
   final List<AvailableSlotModel>? availableSlots;
+  final List<BookingsModel>? bookings;
 
   const ServiceModel({
     this.id,
@@ -22,6 +24,7 @@ class ServiceModel {
     this.users,
     this.serviceType,
     this.availableSlots,
+    this.bookings,
   });
 
   // Factory constructor to create an instance from JSON
@@ -36,6 +39,11 @@ class ServiceModel {
       availableSlots: json['available_slots'] != null
           ? (json['available_slots'] as List<dynamic>)
               .map((slot) => AvailableSlotModel.fromJson(slot))
+              .toList()
+          : null,
+      bookings: json['bookings'] != null
+          ? (json['bookings'] as List<dynamic>)
+              .map((slot) => BookingsModel.fromJson(slot))
               .toList()
           : null,
       users: json['users'] != null ? UserModel.fromJson(json['users']) : null,
@@ -58,6 +66,7 @@ class ServiceModel {
       'users': users?.toJson(),
       'service_type': serviceType.toString().split('.').last, // Enum to string
       'available_slots': availableSlots?.map((e) => e.toJson()).toList(),
+      'bookings': bookings?.map((e) => e.toJson()).toList(),
     };
   }
 }

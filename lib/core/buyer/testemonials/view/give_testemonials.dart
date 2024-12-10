@@ -1,60 +1,81 @@
-import 'package:flutter/cupertino.dart';
+import 'dart:developer';
+
+import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:scp/constant/path.dart';
-import 'package:scp/core/consultant/testimonials/view_model/testimonials_view_model.dart';
+import 'package:scp/core/buyer/testemonials/view/add_give_testemonials.dart';
+import 'package:scp/core/buyer/testemonials/view_model/give_testemonials_view_model.dart';
+import 'package:scp/model/bookings_model.dart';
 import 'package:scp/theme/colors/colors.dart';
 import 'package:scp/widgets/appBar/primary_app_bar.dart';
 import 'package:scp/widgets/progressIndicator/progress_indicator.dart';
-import 'package:scp/widgets/snackbar_message/snackbar_message.dart';
 import 'package:video_player/video_player.dart';
 
-class Testimonials extends ConsumerWidget {
-  const Testimonials({super.key});
+class GiveTestemonials extends ConsumerWidget {
+  final BookingsModel booking;
+  const GiveTestemonials({super.key, required this.booking});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final testimonialsState = ref.watch(testimonialsViewModelProvider);
-    ref.listen<String?>(deleteTestimonialErrorMsgProvider, (previous, next) {
-      if (next != null) {
-        CustomSnackbar.showSnackbar(context, next, false);
-        ref.read(deleteTestimonialErrorMsgProvider.notifier).state = null;
-      }
-    });
-
-    ref.listen<String?>(deleteTestimonialSuccessMsgProvider, (previous, next) {
-      if (next != null) {
-        CustomSnackbar.showSnackbar(context, next, true);
-        ref.read(deleteTestimonialSuccessMsgProvider.notifier).state = null;
-      }
-    });
+    final bookingState = ref.watch(buyerTestemonialForService(booking.id!));
 
     return Scaffold(
       appBar: PreferredSize(
         preferredSize: Size.fromHeight(8.h),
         child: const PrimaryAppBar(
-          title: 'Testimonials ❤',
+          title: 'Testemonial',
           icon: true,
         ),
       ),
-      body: testimonialsState.when(
+      body: bookingState.when(
         data: (value) {
           if (value.isEmpty) {
             return Center(
-              child: Text(
-                'No testimonial has been given to you. :(',
-                style: TextStyle(
-                  fontSize: 16.sp,
-                  fontWeight: FontWeight.bold,
+              child: TextButton(
+                onPressed: () async {
+                  try {
+                    final cameras = await availableCameras();
+
+                    // Filter for the front camera
+                    final frontCamera = cameras.firstWhere(
+                      (camera) =>
+                          camera.lensDirection == CameraLensDirection.front,
+                      orElse: () =>
+                          throw Exception('No front camera available'),
+                    );
+
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (_) => AddGiveTestemonials(
+                          booking: booking,
+                          camera: frontCamera,
+                        ),
+                      ),
+                    );
+                  } catch (e) {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(content: Text('Error: $e')),
+                    );
+                  }
+                },
+                child: Text(
+                  'Give a testimonial now',
+                  style: TextStyle(
+                    fontSize: 16.sp,
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
               ),
             );
           }
+
           return ListView.builder(
-            shrinkWrap: true,
             itemCount: value.length,
             itemBuilder: (context, index) {
+              log(storageUrl + value[index].videoUrl.toString());
               return Container(
                 padding: const EdgeInsets.all(10),
                 margin: const EdgeInsets.all(10),
@@ -94,9 +115,7 @@ class Testimonials extends ConsumerWidget {
                         ),
                       ),
                     ),
-                    SizedBox(
-                      height: 1.h,
-                    ),
+                    SizedBox(height: 1.h),
                     if (value[index].rating != null)
                       Row(
                         children: [
@@ -121,7 +140,7 @@ class Testimonials extends ConsumerWidget {
                           children: [
                             if (value[index].userId != null)
                               Text(
-                                'by ${value[index].userId!.name}',
+                                value[index].userId!.name,
                                 style: TextStyle(
                                   fontSize: 16.sp,
                                   color: textColor,
@@ -140,22 +159,6 @@ class Testimonials extends ConsumerWidget {
                                 ),
                               ),
                           ],
-                        ),
-                        //menu
-                        IconButton(
-                          onPressed: () async {
-                            await ref
-                                .read(testimonialsViewModelProvider.notifier)
-                                .delete(
-                                  ref,
-                                  value[index].id!,
-                                );
-                          },
-                          icon: Icon(
-                            CupertinoIcons.delete,
-                            color: textColor,
-                            size: 16.sp,
-                          ),
                         ),
                       ],
                     ),
@@ -190,6 +193,7 @@ class VideoPlayerWidgetState extends State<VideoPlayerWidget> {
 
   @override
   void initState() {
+    log(widget.videoUrl);
     super.initState();
     _controller = VideoPlayerController.network(widget.videoUrl)
       ..initialize().then((_) {
