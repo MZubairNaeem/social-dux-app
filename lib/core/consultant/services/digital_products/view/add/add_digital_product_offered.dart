@@ -164,7 +164,7 @@ class AddDigitalProductOfferedState
                   Align(
                     alignment: Alignment.centerLeft,
                     child: Text(
-                      'Price (Pkr)',
+                      'Price (\$)',
                       style: TextStyle(
                         color: textColor,
                         fontSize: 16.sp,
@@ -184,7 +184,7 @@ class AddDigitalProductOfferedState
                     },
                     keyboardType: TextInputType.number,
                     decoration: InputDecoration(
-                      hintText: 'Enter price in Pkr',
+                      hintText: 'Enter price in \$',
                       contentPadding: EdgeInsets.symmetric(
                         vertical: 10.sp,
                         horizontal: 12.sp,

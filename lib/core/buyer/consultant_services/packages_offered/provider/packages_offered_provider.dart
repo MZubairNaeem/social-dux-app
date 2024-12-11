@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:scp/main.dart';
 import 'package:scp/model/service_package_model.dart';
@@ -17,7 +15,6 @@ final packagesOfferedProvider =
           .then(
         (value) {
           for (var item in value) {
-            log(item.toString());
             serviceModel.add(ServicePackageModel.fromJson(item));
           }
         },

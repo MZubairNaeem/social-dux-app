@@ -1,6 +1,3 @@
-import 'dart:developer';
-
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
@@ -61,7 +58,7 @@ class PriorityDmsState extends ConsumerState<PriorityDms> {
               final chatRoom = snapshot.data!;
               if (chatRoom.isEmpty) {
                 return const Center(
-                  child: Text('Buy a service to start conversation now :)'),
+                  child: Text('start conversation now :)'),
                 );
               } else {
                 return ListView.builder(
@@ -70,44 +67,8 @@ class PriorityDmsState extends ConsumerState<PriorityDms> {
                   itemBuilder: (context, index) {
                     return Column(
                       children: [
-                        Padding(
-                          padding: EdgeInsets.symmetric(
-                            horizontal: 4.w,
-                            vertical: 2.h,
-                          ),
-                          child: TextField(
-                            decoration: InputDecoration(
-                              contentPadding: EdgeInsets.symmetric(
-                                vertical: 1.h,
-                                horizontal: 5.w,
-                              ),
-                              hintText: 'Search . . .',
-                              suffixIcon: Padding(
-                                padding: EdgeInsets.only(right: 2.w),
-                                child: Icon(
-                                  CupertinoIcons.search,
-                                  color: hintText.withOpacity(0.3),
-                                ),
-                              ),
-                              border: OutlineInputBorder(
-                                borderSide: BorderSide(
-                                    color: hintText.withOpacity(0.5)),
-                                borderRadius: BorderRadius.circular(12.sp),
-                              ),
-                              focusedBorder: OutlineInputBorder(
-                                borderSide: const BorderSide(
-                                  color: primaryColor,
-                                  width: 1.5,
-                                ),
-                                borderRadius: BorderRadius.circular(12.sp),
-                              ),
-                              enabledBorder: OutlineInputBorder(
-                                borderSide: BorderSide(
-                                    color: hintText.withOpacity(0.3)),
-                                borderRadius: BorderRadius.circular(12.sp),
-                              ),
-                            ),
-                          ),
+                        SizedBox(
+                          height: 2.h,
                         ),
                         Stack(
                           children: [
@@ -174,8 +135,8 @@ class PriorityDmsState extends ConsumerState<PriorityDms> {
                                         Consumer(
                                           builder: (context, watch, child) {
                                             final userState = ref.watch(
-                                                userProvider(chatRoom[index]
-                                                    .consultantId!));
+                                                userProvider(
+                                                    chatRoom[index].buyerId!));
                                             return userState.when(
                                               data: (data) {
                                                 return Text(

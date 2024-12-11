@@ -1,19 +1,23 @@
-import 'dart:developer';
-
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
+import 'package:scp/core/buyer/buyer_dashboard/providers/user_provider.dart';
 import 'package:scp/core/consultant/bookings/providers/all_services_provider.dart';
+import 'package:scp/main.dart';
 import 'package:scp/theme/colors/colors.dart';
 import 'package:scp/widgets/appBar/primary_app_bar.dart';
 import 'package:scp/widgets/progressIndicator/progress_indicator.dart';
+import 'package:zego_uikit_prebuilt_call/zego_uikit_prebuilt_call.dart';
 
 class Bookings extends ConsumerWidget {
   const Bookings({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final userState = ref.watch(userProvider(supabase.auth.currentUser!.id));
+
     final bookings = ref.watch(allServiceWithBookings);
 
     return Scaffold(
@@ -26,7 +30,6 @@ class Bookings extends ConsumerWidget {
       ),
       body: bookings.when(
         data: (value) {
-          log(value.length.toString());
           if (value.isEmpty) {
             return Center(
               child: Text(
@@ -109,7 +112,7 @@ class Bookings extends ConsumerWidget {
                                     ),
                                   ),
                                   child: Text(
-                                    "${value[index].price} Pkr",
+                                    "${value[index].price} \$",
                                     style: TextStyle(
                                       fontSize: 15.sp,
                                       color: accentColor,
@@ -167,11 +170,49 @@ class Bookings extends ConsumerWidget {
                         // Format the date
                         String formattedDate =
                             DateFormat("d MMM yyyy").format(date);
-                        return Text(
-                          "By ${value[index].bookings![c].buyerId!.name} \nTime of Booking $formattedDate",
-                          style: TextStyle(
-                            fontSize: 16.sp,
-                          ),
+                        return Row(
+                          children: [
+                            Text(
+                              "By ${value[index].bookings![c].buyerId!.name} \nTime of Booking $formattedDate",
+                              style: TextStyle(
+                                fontSize: 16.sp,
+                              ),
+                            ),
+                            if ('ServiceType.oneToOneSession' ==
+                                value[index]
+                                    .bookings![c]
+                                    .serviceId!
+                                    .serviceType
+                                    .toString())
+                              userState.when(
+                                data: (val) {
+                                  return TextButton(
+                                    onPressed: () async => await Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (_) => CallPage(
+                                            bookingId:
+                                                value[index].bookings![c].id!,
+                                            username: val.name),
+                                      ),
+                                    ),
+                                    child: Text(
+                                      'Start Meeting',
+                                      style: TextStyle(
+                                        fontSize: 15.sp,
+                                        fontWeight: FontWeight.bold,
+                                        color: accentColor,
+                                      ),
+                                    ),
+                                  );
+                                },
+                                error: (error, stackTrace) =>
+                                    Text('Error: $error'),
+                                loading: () => const CupertinoActivityIndicator(
+                                  color: primaryColor,
+                                ),
+                              ),
+                          ],
                         );
                       },
                     ),
@@ -185,6 +226,27 @@ class Bookings extends ConsumerWidget {
         loading: () =>
             const Center(child: CustomProgressIndicator(color: primaryColor)),
       ),
+    );
+  }
+}
+
+class CallPage extends StatelessWidget {
+  final String bookingId;
+  final String username;
+  const CallPage({super.key, required this.bookingId, required this.username});
+
+  @override
+  Widget build(BuildContext context) {
+    return ZegoUIKitPrebuiltCall(
+      appID:
+          1474611744, // Fill in the appID that you get from ZEGOCLOUD Admin Console.
+      appSign:
+          'd2e1807c62e94f7d2dcea08cde7d5da2bbaac970b78eb29894c07e5a448c1f2c', // Fill in the appSign that you get from ZEGOCLOUD Admin Console.
+      userID: supabase.auth.currentUser!.id,
+      userName: username,
+      callID: bookingId,
+      // You can also use groupVideo/groupVoice/oneOnOneVoice to make more types of calls.
+      config: ZegoUIKitPrebuiltCallConfig.oneOnOneVideoCall(),
     );
   }
 }

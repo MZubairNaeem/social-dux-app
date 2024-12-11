@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:scp/main.dart';
 import 'package:scp/model/testimonial_model.dart';
@@ -20,8 +18,6 @@ class TestimonialsViewModel
           .then(
         (value) {
           for (var item in value) {
-            log('testimonials');
-            log(item.toString());
             testimonialModel.add(TestimonialModel.fromJson(item));
           }
           state = AsyncData(testimonialModel);

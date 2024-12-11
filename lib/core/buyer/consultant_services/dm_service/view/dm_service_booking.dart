@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:scp/core/buyer/bookings/view_models/buyer_bookings_view_model.dart';
+import 'package:scp/main.dart';
 import 'package:scp/model/service_model.dart';
 import 'package:scp/theme/colors/colors.dart';
 import 'package:scp/widgets/appBar/primary_app_bar.dart';
@@ -31,12 +32,11 @@ class DmServiceBooking extends ConsumerWidget {
         ref.read(createbuyerBookingsSuccessMsgProvider.notifier).state = null;
       }
     });
-    final formKey = GlobalKey<FormState>();
 
     final formattedDate = DateFormat('d MMM, y').format(DateTime.now());
     var endTime = DateFormat('d MMM, y').format(
         DateTime.now().add(Duration(days: int.parse(service.duration!))));
-
+    final jazz = TextEditingController();
     return Scaffold(
       appBar: PreferredSize(
         preferredSize: Size.fromHeight(8.h),
@@ -46,7 +46,6 @@ class DmServiceBooking extends ConsumerWidget {
         ),
       ),
       body: Form(
-        key: formKey,
         child: ListView(
           children: [
             SizedBox(
@@ -87,7 +86,7 @@ class DmServiceBooking extends ConsumerWidget {
             Padding(
               padding: EdgeInsets.symmetric(horizontal: 5.h),
               child: TextFormField(
-                // controller: emailController,
+                controller: jazz,
                 validator: (value) {
                   if (value!.isEmpty) {
                     return 'Your Easypaisa or Jazzcash number is required';
@@ -129,15 +128,23 @@ class DmServiceBooking extends ConsumerWidget {
             Padding(
               padding: EdgeInsets.symmetric(horizontal: 5.h),
               child: ElevatedButton(
-                onPressed: () {
-                  if (formKey.currentState!.validate()) {
-                    ref.read(buyerBookingsViewModelProvider.notifier).create(
-                          endTime,
-                          ref,
-                          service.id!,
-                          null,
-                        );
+                onPressed: () async {
+                  if (jazz.text.isEmpty) {
+                    CustomSnackbar.showSnackbar(
+                        context, 'Please Enter Number for payment', true);
+                    return;
                   }
+                  ref.read(buyerBookingsViewModelProvider.notifier).create(
+                        endTime,
+                        ref,
+                        service.id!,
+                        null,
+                      );
+                  await supabase.from('chat_rooms').insert({
+                    'last_message': 'Say Hi!',
+                    'buyer_id': supabase.auth.currentUser!.id,
+                    'consultant_id': service.users!.id,
+                  });
                 },
                 style: ButtonStyle(
                   overlayColor: WidgetStateColor.resolveWith(

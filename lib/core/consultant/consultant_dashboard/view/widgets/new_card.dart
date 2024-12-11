@@ -26,26 +26,6 @@ class NewsCard extends StatelessWidget {
                 height: 20.h,
                 fit: BoxFit.cover,
               ),
-              Padding(
-                padding: EdgeInsets.all(2.w),
-                child: Column(
-                  children: [
-                    Text(
-                      'News Title',
-                      style: TextStyle(
-                        fontSize: 12.sp,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    Text(
-                      'News Description',
-                      style: TextStyle(
-                        fontSize: 10.sp,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
             ],
           ),
         ),

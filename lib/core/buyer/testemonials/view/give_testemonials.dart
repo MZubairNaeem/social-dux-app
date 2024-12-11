@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -75,7 +73,6 @@ class GiveTestemonials extends ConsumerWidget {
           return ListView.builder(
             itemCount: value.length,
             itemBuilder: (context, index) {
-              log(storageUrl + value[index].videoUrl.toString());
               return Container(
                 padding: const EdgeInsets.all(10),
                 margin: const EdgeInsets.all(10),
@@ -193,7 +190,6 @@ class VideoPlayerWidgetState extends State<VideoPlayerWidget> {
 
   @override
   void initState() {
-    log(widget.videoUrl);
     super.initState();
     _controller = VideoPlayerController.network(widget.videoUrl)
       ..initialize().then((_) {

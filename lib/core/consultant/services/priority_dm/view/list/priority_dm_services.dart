@@ -102,7 +102,7 @@ class PriorityDmServices extends ConsumerWidget {
                                 ),
                               ),
                               child: Text(
-                                '${value[index].price.toString()} Pkr',
+                                '${value[index].price.toString()} \$',
                                 style: TextStyle(
                                   fontSize: 15.sp,
                                   color: accentColor,

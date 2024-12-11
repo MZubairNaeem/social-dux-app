@@ -227,350 +227,350 @@ class CalendarState extends ConsumerState<Calendar> {
                   loading: () => const Center(
                       child: CustomProgressIndicator(color: primaryColor)),
                 ),
-                SizedBox(
-                  height: 2.h,
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(
-                      'Time Zone',
-                      style: TextStyle(
-                        fontSize: 16.sp,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    OutlinedButton(
-                      onPressed: () {},
-                      child: const Text(
-                        'Karachi (GMT+5)',
-                      ),
-                    ),
-                  ],
-                ),
-                SizedBox(
-                  width: double.infinity,
-                  child: Text(
-                    'Lorem ipsum, dolor sit amet consectetur adipisicing elit. Amet, exercitationem dolor sit amet consectetur adipisicing elit. Amet',
-                    style: TextStyle(
-                      fontSize: 16.sp,
-                      overflow: TextOverflow.clip,
-                    ),
-                  ),
-                ),
+                // SizedBox(
+                //   height: 2.h,
+                // ),
+                // Row(
+                //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                //   children: [
+                //     Text(
+                //       'Time Zone',
+                //       style: TextStyle(
+                //         fontSize: 16.sp,
+                //         fontWeight: FontWeight.bold,
+                //       ),
+                //     ),
+                //     OutlinedButton(
+                //       onPressed: () {},
+                //       child: const Text(
+                //         'Karachi (GMT+5)',
+                //       ),
+                //     ),
+                //   ],
+                // ),
+                // SizedBox(
+                //   width: double.infinity,
+                //   child: Text(
+                //     'Lorem ipsum, dolor sit amet consectetur adipisicing elit. Amet, exercitationem dolor sit amet consectetur adipisicing elit. Amet',
+                //     style: TextStyle(
+                //       fontSize: 16.sp,
+                //       overflow: TextOverflow.clip,
+                //     ),
+                //   ),
+                // ),
               ],
             ),
           ),
-          Padding(
-            padding: EdgeInsets.symmetric(
-              horizontal: 4.w,
-              vertical: 2.h,
-            ),
-            child: Column(
-              children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(
-                      'Reschedule Policy',
-                      style: TextStyle(
-                        fontSize: 16.sp,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    OutlinedButton(
-                      onPressed: () {},
-                      child: const Text(
-                        'Update Policy',
-                      ),
-                    ),
-                  ],
-                ),
-                SizedBox(
-                  width: double.infinity,
-                  child: Text(
-                    'Lorem ipsum, dolor sit amet consectetur adipisicing elit. Amet, exercitationem dolor sit amet consectetur adipisicing elit. Amet',
-                    style: TextStyle(
-                      fontSize: 16.sp,
-                      overflow: TextOverflow.clip,
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          ),
-          Padding(
-            padding: EdgeInsets.symmetric(
-              horizontal: 4.w,
-              vertical: 2.h,
-            ),
-            child: Column(
-              children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(
-                      'Booking Period',
-                      style: TextStyle(
-                        fontSize: 16.sp,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    OutlinedButton(
-                      onPressed: () {},
-                      child: const Text(
-                        '2 months',
-                      ),
-                    ),
-                  ],
-                ),
-                SizedBox(
-                  width: double.infinity,
-                  child: Text(
-                    'Lorem ipsum, dolor sit amet consectetur adipisicing elit. Amet, exercitationem dolor sit amet consectetur adipisicing elit. Amet',
-                    style: TextStyle(
-                      fontSize: 16.sp,
-                      overflow: TextOverflow.clip,
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          ),
-          Padding(
-            padding: EdgeInsets.symmetric(
-              horizontal: 4.w,
-              vertical: 2.h,
-            ),
-            child: Column(
-              children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(
-                      'Notice Period',
-                      style: TextStyle(
-                        fontSize: 16.sp,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    OutlinedButton(
-                      onPressed: () {},
-                      child: const Text(
-                        '240 Minutes',
-                      ),
-                    ),
-                  ],
-                ),
-                SizedBox(
-                  width: double.infinity,
-                  child: Text(
-                    'Lorem ipsum, dolor sit amet consectetur adipisicing elit. Amet, exercitationem dolor sit amet consectetur adipisicing elit. Amet',
-                    style: TextStyle(
-                      fontSize: 16.sp,
-                      overflow: TextOverflow.clip,
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          ),
-          Padding(
-            padding: EdgeInsets.symmetric(
-              horizontal: 4.w,
-              vertical: 2.h,
-            ),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  'Meeting Location',
-                  style: TextStyle(
-                    fontSize: 16.sp,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-                Text(
-                  'Lorem ipsum, dolor sit amet consectetur adipisicing elit. Amet, exercitationem dolor sit amet consectetur adipisicing elit. Amet',
-                  style: TextStyle(
-                    fontSize: 14.sp,
-                    fontWeight: FontWeight.normal,
-                  ),
-                ),
-              ],
-            ),
-          ),
-          Padding(
-            padding: EdgeInsets.symmetric(
-              horizontal: 4.w,
-              vertical: 1.h,
-            ),
-            child: Row(
-              children: [
-                Image.asset(
-                  'lib/assets/icons/zoom.png',
-                  width: 7.w,
-                  height: 7.w,
-                  fit: BoxFit.cover,
-                ),
-                SizedBox(width: 5.w),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      'Zoom Meeting',
-                      style: TextStyle(
-                        fontSize: 16.sp,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                  ],
-                ),
-                const Spacer(),
-                //toogle button
-                Switch.adaptive(
-                  // thumb color (round icon)
-                  activeColor: white,
-                  activeTrackColor: primaryColor,
-                  inactiveThumbColor: white,
-                  inactiveTrackColor: Colors.grey,
-                  splashRadius: 50.0,
-                  // boolean variable value
-                  value: zoomValue,
-                  // changes the state of the switch
-                  onChanged: (bool v) {
-                    setState(() {
-                      // update the state variable value
-                      zoomValue = v;
-                    });
-                  },
-                ),
-              ],
-            ),
-          ),
-          //horizontal line
-          Padding(
-            padding: EdgeInsets.symmetric(
-              horizontal: 4.w,
-            ),
-            child: Container(
-              height: 0.1.h,
-              color: hintText.withOpacity(0.2),
-            ),
-          ),
-          Padding(
-            padding: EdgeInsets.symmetric(
-              horizontal: 4.w,
-              vertical: 1.h,
-            ),
-            child: Row(
-              children: [
-                Image.asset(
-                  'lib/assets/icons/meet.png',
-                  width: 7.w,
-                  height: 7.w,
-                  fit: BoxFit.cover,
-                ),
-                SizedBox(width: 5.w),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      'Google Meet',
-                      style: TextStyle(
-                        fontSize: 16.sp,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                  ],
-                ),
-                const Spacer(),
-                //toogle button
-                Switch.adaptive(
-                  // thumb color (round icon)
-                  activeColor: white,
-                  activeTrackColor: primaryColor,
-                  inactiveThumbColor: white,
-                  inactiveTrackColor: Colors.grey,
-                  splashRadius: 50.0,
-                  // boolean variable value
-                  value: meetMalue,
-                  // changes the state of the switch
-                  onChanged: (bool v) {
-                    setState(() {
-                      // update the state variable value
-                      meetMalue = v;
-                    });
-                  },
-                ),
-              ],
-            ),
-          ),
-          Padding(
-            padding: EdgeInsets.symmetric(
-              horizontal: 4.w,
-            ),
-            child: Container(
-              height: 0.1.h,
-              color: hintText.withOpacity(0.2),
-            ),
-          ),
-          Padding(
-            padding: EdgeInsets.symmetric(
-              horizontal: 4.w,
-              vertical: 1.h,
-            ),
-            child: Row(
-              children: [
-                Icon(
-                  CupertinoIcons.link,
-                  color: textColor,
-                  size: 7.w,
-                ),
-                SizedBox(width: 5.w),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      'InApp Meeting',
-                      style: TextStyle(
-                        fontSize: 16.sp,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                  ],
-                ),
-                const Spacer(),
-                //toogle button
-                Switch.adaptive(
-                  // thumb color (round icon)
-                  activeColor: white,
-                  activeTrackColor: primaryColor,
-                  inactiveThumbColor: white,
-                  inactiveTrackColor: Colors.grey,
-                  splashRadius: 50.0,
-                  // boolean variable value
-                  value: linkValue,
-                  // changes the state of the switch
-                  onChanged: (bool v) {
-                    setState(() {
-                      // update the state variable value
-                      linkValue = v;
-                    });
-                  },
-                ),
-              ],
-            ),
-          ),
-          Padding(
-            padding: EdgeInsets.symmetric(
-              horizontal: 4.w,
-            ),
-            child: Container(
-              height: 0.1.h,
-              color: hintText.withOpacity(0.2),
-            ),
-          ),
+          // Padding(
+          //   padding: EdgeInsets.symmetric(
+          //     horizontal: 4.w,
+          //     vertical: 2.h,
+          //   ),
+          //   child: Column(
+          //     children: [
+          //       Row(
+          //         mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          //         children: [
+          //           Text(
+          //             'Reschedule Policy',
+          //             style: TextStyle(
+          //               fontSize: 16.sp,
+          //               fontWeight: FontWeight.bold,
+          //             ),
+          //           ),
+          //           OutlinedButton(
+          //             onPressed: () {},
+          //             child: const Text(
+          //               'Update Policy',
+          //             ),
+          //           ),
+          //         ],
+          //       ),
+          //       SizedBox(
+          //         width: double.infinity,
+          //         child: Text(
+          //           'Lorem ipsum, dolor sit amet consectetur adipisicing elit. Amet, exercitationem dolor sit amet consectetur adipisicing elit. Amet',
+          //           style: TextStyle(
+          //             fontSize: 16.sp,
+          //             overflow: TextOverflow.clip,
+          //           ),
+          //         ),
+          //       ),
+          //     ],
+          //   ),
+          // ),
+          // Padding(
+          //   padding: EdgeInsets.symmetric(
+          //     horizontal: 4.w,
+          //     vertical: 2.h,
+          //   ),
+          //   child: Column(
+          //     children: [
+          //       Row(
+          //         mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          //         children: [
+          //           Text(
+          //             'Booking Period',
+          //             style: TextStyle(
+          //               fontSize: 16.sp,
+          //               fontWeight: FontWeight.bold,
+          //             ),
+          //           ),
+          //           OutlinedButton(
+          //             onPressed: () {},
+          //             child: const Text(
+          //               '2 months',
+          //             ),
+          //           ),
+          //         ],
+          //       ),
+          //       SizedBox(
+          //         width: double.infinity,
+          //         child: Text(
+          //           'Lorem ipsum, dolor sit amet consectetur adipisicing elit. Amet, exercitationem dolor sit amet consectetur adipisicing elit. Amet',
+          //           style: TextStyle(
+          //             fontSize: 16.sp,
+          //             overflow: TextOverflow.clip,
+          //           ),
+          //         ),
+          //       ),
+          //     ],
+          //   ),
+          // ),
+          // Padding(
+          //   padding: EdgeInsets.symmetric(
+          //     horizontal: 4.w,
+          //     vertical: 2.h,
+          //   ),
+          //   child: Column(
+          //     children: [
+          //       Row(
+          //         mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          //         children: [
+          //           Text(
+          //             'Notice Period',
+          //             style: TextStyle(
+          //               fontSize: 16.sp,
+          //               fontWeight: FontWeight.bold,
+          //             ),
+          //           ),
+          //           OutlinedButton(
+          //             onPressed: () {},
+          //             child: const Text(
+          //               '240 Minutes',
+          //             ),
+          //           ),
+          //         ],
+          //       ),
+          //       SizedBox(
+          //         width: double.infinity,
+          //         child: Text(
+          //           'Lorem ipsum, dolor sit amet consectetur adipisicing elit. Amet, exercitationem dolor sit amet consectetur adipisicing elit. Amet',
+          //           style: TextStyle(
+          //             fontSize: 16.sp,
+          //             overflow: TextOverflow.clip,
+          //           ),
+          //         ),
+          //       ),
+          //     ],
+          //   ),
+          // ),
+          // Padding(
+          //   padding: EdgeInsets.symmetric(
+          //     horizontal: 4.w,
+          //     vertical: 2.h,
+          //   ),
+          //   child: Column(
+          //     crossAxisAlignment: CrossAxisAlignment.start,
+          //     children: [
+          //       Text(
+          //         'Meeting Location',
+          //         style: TextStyle(
+          //           fontSize: 16.sp,
+          //           fontWeight: FontWeight.bold,
+          //         ),
+          //       ),
+          //       Text(
+          //         'Lorem ipsum, dolor sit amet consectetur adipisicing elit. Amet, exercitationem dolor sit amet consectetur adipisicing elit. Amet',
+          //         style: TextStyle(
+          //           fontSize: 14.sp,
+          //           fontWeight: FontWeight.normal,
+          //         ),
+          //       ),
+          //     ],
+          //   ),
+          // ),
+          // Padding(
+          //   padding: EdgeInsets.symmetric(
+          //     horizontal: 4.w,
+          //     vertical: 1.h,
+          //   ),
+          //   child: Row(
+          //     children: [
+          //       Image.asset(
+          //         'lib/assets/icons/zoom.png',
+          //         width: 7.w,
+          //         height: 7.w,
+          //         fit: BoxFit.cover,
+          //       ),
+          //       SizedBox(width: 5.w),
+          //       Column(
+          //         crossAxisAlignment: CrossAxisAlignment.start,
+          //         children: [
+          //           Text(
+          //             'Zoom Meeting',
+          //             style: TextStyle(
+          //               fontSize: 16.sp,
+          //               fontWeight: FontWeight.bold,
+          //             ),
+          //           ),
+          //         ],
+          //       ),
+          //       const Spacer(),
+          //       //toogle button
+          //       Switch.adaptive(
+          //         // thumb color (round icon)
+          //         activeColor: white,
+          //         activeTrackColor: primaryColor,
+          //         inactiveThumbColor: white,
+          //         inactiveTrackColor: Colors.grey,
+          //         splashRadius: 50.0,
+          //         // boolean variable value
+          //         value: zoomValue,
+          //         // changes the state of the switch
+          //         onChanged: (bool v) {
+          //           setState(() {
+          //             // update the state variable value
+          //             zoomValue = v;
+          //           });
+          //         },
+          //       ),
+          //     ],
+          //   ),
+          // ),
+          // //horizontal line
+          // Padding(
+          //   padding: EdgeInsets.symmetric(
+          //     horizontal: 4.w,
+          //   ),
+          //   child: Container(
+          //     height: 0.1.h,
+          //     color: hintText.withOpacity(0.2),
+          //   ),
+          // ),
+          // Padding(
+          //   padding: EdgeInsets.symmetric(
+          //     horizontal: 4.w,
+          //     vertical: 1.h,
+          //   ),
+          //   child: Row(
+          //     children: [
+          //       Image.asset(
+          //         'lib/assets/icons/meet.png',
+          //         width: 7.w,
+          //         height: 7.w,
+          //         fit: BoxFit.cover,
+          //       ),
+          //       SizedBox(width: 5.w),
+          //       Column(
+          //         crossAxisAlignment: CrossAxisAlignment.start,
+          //         children: [
+          //           Text(
+          //             'Google Meet',
+          //             style: TextStyle(
+          //               fontSize: 16.sp,
+          //               fontWeight: FontWeight.bold,
+          //             ),
+          //           ),
+          //         ],
+          //       ),
+          //       const Spacer(),
+          //       //toogle button
+          //       Switch.adaptive(
+          //         // thumb color (round icon)
+          //         activeColor: white,
+          //         activeTrackColor: primaryColor,
+          //         inactiveThumbColor: white,
+          //         inactiveTrackColor: Colors.grey,
+          //         splashRadius: 50.0,
+          //         // boolean variable value
+          //         value: meetMalue,
+          //         // changes the state of the switch
+          //         onChanged: (bool v) {
+          //           setState(() {
+          //             // update the state variable value
+          //             meetMalue = v;
+          //           });
+          //         },
+          //       ),
+          //     ],
+          //   ),
+          // ),
+          // Padding(
+          //   padding: EdgeInsets.symmetric(
+          //     horizontal: 4.w,
+          //   ),
+          //   child: Container(
+          //     height: 0.1.h,
+          //     color: hintText.withOpacity(0.2),
+          //   ),
+          // ),
+          // Padding(
+          //   padding: EdgeInsets.symmetric(
+          //     horizontal: 4.w,
+          //     vertical: 1.h,
+          //   ),
+          //   child: Row(
+          //     children: [
+          //       Icon(
+          //         CupertinoIcons.link,
+          //         color: textColor,
+          //         size: 7.w,
+          //       ),
+          //       SizedBox(width: 5.w),
+          //       Column(
+          //         crossAxisAlignment: CrossAxisAlignment.start,
+          //         children: [
+          //           Text(
+          //             'InApp Meeting',
+          //             style: TextStyle(
+          //               fontSize: 16.sp,
+          //               fontWeight: FontWeight.bold,
+          //             ),
+          //           ),
+          //         ],
+          //       ),
+          //       const Spacer(),
+          //       //toogle button
+          //       Switch.adaptive(
+          //         // thumb color (round icon)
+          //         activeColor: white,
+          //         activeTrackColor: primaryColor,
+          //         inactiveThumbColor: white,
+          //         inactiveTrackColor: Colors.grey,
+          //         splashRadius: 50.0,
+          //         // boolean variable value
+          //         value: linkValue,
+          //         // changes the state of the switch
+          //         onChanged: (bool v) {
+          //           setState(() {
+          //             // update the state variable value
+          //             linkValue = v;
+          //           });
+          //         },
+          //       ),
+          //     ],
+          //   ),
+          // ),
+          // Padding(
+          //   padding: EdgeInsets.symmetric(
+          //     horizontal: 4.w,
+          //   ),
+          //   child: Container(
+          //     height: 0.1.h,
+          //     color: hintText.withOpacity(0.2),
+          //   ),
+          // ),
         ],
       ),
       floatingActionButton: FloatingActionButton.extended(

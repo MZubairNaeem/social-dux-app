@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
@@ -88,7 +86,7 @@ class DmServices extends ConsumerWidget {
                                 ),
                               ),
                               child: Text(
-                                '${value[index].price.toString()} Pkr',
+                                '${value[index].price.toString()} \$',
                                 style: TextStyle(
                                   fontSize: 15.sp,
                                   color: accentColor,

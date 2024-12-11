@@ -21,7 +21,7 @@ class DigitalProductPurchase extends ConsumerWidget {
         ref.read(createbuyerBookingsErrorMsgProvider.notifier).state = null;
       }
     });
-
+    final jazz = TextEditingController();
     ref.listen<String?>(createbuyerBookingsSuccessMsgProvider,
         (previous, next) {
       if (next != null) {
@@ -30,7 +30,7 @@ class DigitalProductPurchase extends ConsumerWidget {
         ref.read(createbuyerBookingsSuccessMsgProvider.notifier).state = null;
       }
     });
-    final formKey = GlobalKey<FormState>();
+    // final formKey = GlobalKey<FormState>();
 
     return Scaffold(
       appBar: PreferredSize(
@@ -41,7 +41,6 @@ class DigitalProductPurchase extends ConsumerWidget {
         ),
       ),
       body: Form(
-        key: formKey,
         child: ListView(
           children: [
             SizedBox(
@@ -72,7 +71,7 @@ class DigitalProductPurchase extends ConsumerWidget {
             Padding(
               padding: EdgeInsets.symmetric(horizontal: 5.h),
               child: TextFormField(
-                // controller: emailController,
+                controller: jazz,
                 validator: (value) {
                   if (value!.isEmpty) {
                     return 'Your Easypaisa or Jazzcash number is required';
@@ -115,14 +114,16 @@ class DigitalProductPurchase extends ConsumerWidget {
               padding: EdgeInsets.symmetric(horizontal: 5.h),
               child: ElevatedButton(
                 onPressed: () {
-                  if (formKey.currentState!.validate()) {
-                    ref.read(buyerBookingsViewModelProvider.notifier).create(
-                          null,
-                          ref,
-                          service.id!,
-                          null,
-                        );
+                  if (jazz.text.isEmpty) {
+                    CustomSnackbar.showSnackbar(
+                        context, 'Please Enter Number for payment', true);
                   }
+                  ref.read(buyerBookingsViewModelProvider.notifier).create(
+                        null,
+                        ref,
+                        service.id!,
+                        null,
+                      );
                 },
                 style: ButtonStyle(
                   overlayColor: WidgetStateColor.resolveWith(
@@ -163,6 +164,7 @@ class DigitalProductPurchase extends ConsumerWidget {
           ],
         ),
       ),
+      // body: TextField(),
     );
   }
 }
