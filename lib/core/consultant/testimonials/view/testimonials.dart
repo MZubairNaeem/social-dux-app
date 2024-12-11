@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_tabler_icons/flutter_tabler_icons.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:scp/constant/path.dart';
 import 'package:scp/core/consultant/testimonials/view_model/testimonials_view_model.dart';
@@ -8,6 +9,7 @@ import 'package:scp/theme/colors/colors.dart';
 import 'package:scp/widgets/appBar/primary_app_bar.dart';
 import 'package:scp/widgets/progressIndicator/progress_indicator.dart';
 import 'package:scp/widgets/snackbar_message/snackbar_message.dart';
+import 'package:url_launcher/url_launcher.dart';
 import 'package:video_player/video_player.dart';
 
 class Testimonials extends ConsumerWidget {
@@ -113,49 +115,154 @@ class Testimonials extends ConsumerWidget {
                         value[index].videoUrl!.isNotEmpty)
                       VideoPlayerWidget(
                           videoUrl: storageUrl + value[index].videoUrl!),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    Column(
                       children: [
                         Row(
-                          mainAxisSize: MainAxisSize.min,
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            if (value[index].userId != null)
-                              Text(
-                                'by ${value[index].userId!.name}',
-                                style: TextStyle(
-                                  fontSize: 16.sp,
-                                  color: textColor,
-                                  fontWeight: FontWeight.bold,
+                            Row(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                if (value[index].userId != null)
+                                  Text(
+                                    'by ${value[index].userId!.name}',
+                                    style: TextStyle(
+                                      fontSize: 16.sp,
+                                      color: textColor,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                SizedBox(
+                                  width: 1.w,
                                 ),
-                              ),
-                            SizedBox(
-                              width: 1.w,
+                                if (value[index].serviceId != null)
+                                  Text(
+                                    "(${value[index].serviceId!.title})",
+                                    style: TextStyle(
+                                      fontSize: 15.sp,
+                                      color: textColor,
+                                    ),
+                                  ),
+                              ],
                             ),
-                            if (value[index].serviceId != null)
-                              Text(
-                                "(${value[index].serviceId!.title})",
-                                style: TextStyle(
-                                  fontSize: 15.sp,
-                                  color: textColor,
-                                ),
+                            //menu
+                            IconButton(
+                              onPressed: () async {
+                                await ref
+                                    .read(
+                                        testimonialsViewModelProvider.notifier)
+                                    .delete(
+                                      ref,
+                                      value[index].id!,
+                                    );
+                              },
+                              icon: Icon(
+                                CupertinoIcons.delete,
+                                color: textColor,
+                                size: 16.sp,
                               ),
+                            ),
                           ],
                         ),
-                        //menu
-                        IconButton(
-                          onPressed: () async {
-                            await ref
-                                .read(testimonialsViewModelProvider.notifier)
-                                .delete(
-                                  ref,
-                                  value[index].id!,
-                                );
-                          },
-                          icon: Icon(
-                            CupertinoIcons.delete,
-                            color: textColor,
-                            size: 16.sp,
-                          ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          children: [
+                            IconButton(
+                              onPressed: () async {
+                                // Share video URL and review text on LinkedIn
+                                String message = value[index].review ??
+                                    "Check out this video!";
+                                String videoUrl =
+                                    storageUrl + (value[index].videoUrl ?? "");
+                                String linkedInUrl =
+                                    "https://www.linkedin.com/shareArticle?url=${Uri.encodeComponent(videoUrl)}&title=${Uri.encodeComponent(message)}";
+                                if (await canLaunchUrl(
+                                    Uri.parse(linkedInUrl))) {
+                                  await launchUrl(Uri.parse(linkedInUrl),
+                                      mode: LaunchMode.externalApplication);
+                                } else {
+                                  CustomSnackbar.showSnackbar(context,
+                                      "LinkedIn app is not installed!", false);
+                                }
+                              },
+                              icon: Icon(
+                                TablerIcons.brand_linkedin,
+                                color: textColor,
+                                size: 16.sp,
+                              ),
+                            ),
+                            IconButton(
+                              onPressed: () async {
+                                // Share video URL and review text on Twitter
+                                String message = value[index].review ??
+                                    "Check out this video!";
+                                String videoUrl =
+                                    storageUrl + (value[index].videoUrl ?? "");
+                                String twitterUrl =
+                                    "https://twitter.com/intent/tweet?text=${Uri.encodeComponent('$message $videoUrl')}";
+                                if (await canLaunchUrl(Uri.parse(twitterUrl))) {
+                                  await launchUrl(Uri.parse(twitterUrl),
+                                      mode: LaunchMode.externalApplication);
+                                } else {
+                                  CustomSnackbar.showSnackbar(context,
+                                      "Twitter app is not installed!", false);
+                                }
+                              },
+                              icon: Icon(
+                                TablerIcons.brand_twitter,
+                                color: textColor,
+                                size: 16.sp,
+                              ),
+                            ),
+                            IconButton(
+                              onPressed: () async {
+                                // Share video URL and review text on Facebook
+                                String message = value[index].review ??
+                                    "Check out this video!";
+                                String videoUrl =
+                                    storageUrl + (value[index].videoUrl ?? "");
+                                String facebookUrl =
+                                    "https://www.facebook.com/sharer/sharer.php?u=${Uri.encodeComponent(videoUrl)}";
+                                if (await canLaunchUrl(
+                                    Uri.parse(facebookUrl))) {
+                                  await launchUrl(Uri.parse(facebookUrl),
+                                      mode: LaunchMode.externalApplication);
+                                } else {
+                                  CustomSnackbar.showSnackbar(context,
+                                      "Facebook app is not installed!", false);
+                                }
+                              },
+                              icon: Icon(
+                                TablerIcons.brand_facebook,
+                                color: textColor,
+                                size: 16.sp,
+                              ),
+                            ),
+                            IconButton(
+                              onPressed: () async {
+                                // Share video URL and review text on Instagram (via share intent)
+                                String message = value[index].review ??
+                                    "Check out this video!";
+                                String videoUrl =
+                                    storageUrl + (value[index].videoUrl ?? "");
+                                String instagramUrl =
+                                    "instagram://story-camera?background=${Uri.encodeComponent(videoUrl)}";
+                                if (await canLaunchUrl(
+                                    Uri.parse(instagramUrl))) {
+                                  await launchUrl(Uri.parse(instagramUrl),
+                                      mode: LaunchMode.externalApplication);
+                                } else {
+                                  CustomSnackbar.showSnackbar(context,
+                                      "Instagram app is not installed!", false);
+                                }
+                              },
+                              icon: Icon(
+                                TablerIcons.brand_instagram,
+                                color: textColor,
+                                size: 16.sp,
+                              ),
+                            ),
+                          ],
                         ),
                       ],
                     ),

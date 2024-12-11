@@ -223,7 +223,7 @@ class AddGiveTestemonialsState extends ConsumerState<AddGiveTestemonials> {
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.done) {
                   return AspectRatio(
-                    aspectRatio: _controller.value.aspectRatio,
+                    aspectRatio: 0.8,
                     child: CameraPreview(_controller),
                   );
                 } else {
