@@ -9,7 +9,7 @@ import 'package:scp/theme/colors/colors.dart';
 import 'package:scp/widgets/appBar/primary_app_bar.dart';
 import 'package:scp/widgets/progressIndicator/progress_indicator.dart';
 import 'package:scp/widgets/snackbar_message/snackbar_message.dart';
-import 'package:url_launcher/url_launcher.dart';
+import 'package:share_plus/share_plus.dart';
 import 'package:video_player/video_player.dart';
 
 class Testimonials extends ConsumerWidget {
@@ -162,106 +162,110 @@ class Testimonials extends ConsumerWidget {
                                 size: 16.sp,
                               ),
                             ),
+                            value[index].videoUrl != null
+                                ? IconButton(
+                                    onPressed: () async {
+                                      // Prepare the video URL and message
+                                      String message = value[index].review ??
+                                          "Check out this video!";
+                                      String videoUrl = storageUrl +
+                                          (value[index].videoUrl ?? "");
+
+                                      // Combine the message and video URL for sharing
+                                      String shareContent =
+                                          "$message\n$videoUrl";
+
+                                      // Use the share_plus package to share the content
+                                      await Share.share(
+                                        shareContent,
+                                        subject:
+                                            "Check this out!", // Optional: add a subject if needed
+                                      );
+                                    },
+                                    icon: Icon(
+                                      TablerIcons.share_3,
+                                      color: textColor,
+                                      size: 16.sp,
+                                    ),
+                                  )
+                                : const SizedBox(),
                           ],
                         ),
-                        Row(
+                        const Row(
                           mainAxisAlignment: MainAxisAlignment.end,
                           children: [
-                            IconButton(
-                              onPressed: () async {
-                                // Share video URL and review text on LinkedIn
-                                String message = value[index].review ??
-                                    "Check out this video!";
-                                String videoUrl =
-                                    storageUrl + (value[index].videoUrl ?? "");
-                                String linkedInUrl =
-                                    "https://www.linkedin.com/shareArticle?url=${Uri.encodeComponent(videoUrl)}&title=${Uri.encodeComponent(message)}";
-                                if (await canLaunchUrl(
-                                    Uri.parse(linkedInUrl))) {
-                                  await launchUrl(Uri.parse(linkedInUrl),
-                                      mode: LaunchMode.externalApplication);
-                                } else {
-                                  CustomSnackbar.showSnackbar(context,
-                                      "LinkedIn app is not installed!", false);
-                                }
-                              },
-                              icon: Icon(
-                                TablerIcons.brand_linkedin,
-                                color: textColor,
-                                size: 16.sp,
-                              ),
-                            ),
-                            IconButton(
-                              onPressed: () async {
-                                // Share video URL and review text on Twitter
-                                String message = value[index].review ??
-                                    "Check out this video!";
-                                String videoUrl =
-                                    storageUrl + (value[index].videoUrl ?? "");
-                                String twitterUrl =
-                                    "https://twitter.com/intent/tweet?text=${Uri.encodeComponent('$message $videoUrl')}";
-                                if (await canLaunchUrl(Uri.parse(twitterUrl))) {
-                                  await launchUrl(Uri.parse(twitterUrl),
-                                      mode: LaunchMode.externalApplication);
-                                } else {
-                                  CustomSnackbar.showSnackbar(context,
-                                      "Twitter app is not installed!", false);
-                                }
-                              },
-                              icon: Icon(
-                                TablerIcons.brand_twitter,
-                                color: textColor,
-                                size: 16.sp,
-                              ),
-                            ),
-                            IconButton(
-                              onPressed: () async {
-                                // Share video URL and review text on Facebook
-                                String message = value[index].review ??
-                                    "Check out this video!";
-                                String videoUrl =
-                                    storageUrl + (value[index].videoUrl ?? "");
-                                String facebookUrl =
-                                    "https://www.facebook.com/sharer/sharer.php?u=${Uri.encodeComponent(videoUrl)}";
-                                if (await canLaunchUrl(
-                                    Uri.parse(facebookUrl))) {
-                                  await launchUrl(Uri.parse(facebookUrl),
-                                      mode: LaunchMode.externalApplication);
-                                } else {
-                                  CustomSnackbar.showSnackbar(context,
-                                      "Facebook app is not installed!", false);
-                                }
-                              },
-                              icon: Icon(
-                                TablerIcons.brand_facebook,
-                                color: textColor,
-                                size: 16.sp,
-                              ),
-                            ),
-                            IconButton(
-                              onPressed: () async {
-                                // Share video URL and review text on Instagram (via share intent)
-                                String message = value[index].review ??
-                                    "Check out this video!";
-                                String videoUrl =
-                                    storageUrl + (value[index].videoUrl ?? "");
-                                String instagramUrl =
-                                    "instagram://story-camera?background=${Uri.encodeComponent(videoUrl)}";
-                                if (await canLaunchUrl(
-                                    Uri.parse(instagramUrl))) {
-                                  await launchUrl(Uri.parse(instagramUrl),
-                                      mode: LaunchMode.externalApplication);
-                                } else {
-                                  CustomSnackbar.showSnackbar(context,
-                                      "Instagram app is not installed!", false);
-                                }
-                              },
-                              icon: Icon(
-                                TablerIcons.brand_instagram,
-                                color: textColor,
-                                size: 16.sp,
-                              ),
-                            ),
+                            // IconButton(
+                            //   onPressed: () async {
+                            //     // Share video URL and review text on LinkedIn
+                            //     String message = value[index].review ??
+                            //         "Check out this video!";
+                            //     String videoUrl =
+                            //         storageUrl + (value[index].videoUrl ?? "");
+                            //     String linkedInUrl =
+                            //         "https://www.linkedin.com/shareArticle?url=${Uri.encodeComponent(videoUrl)}&title=${Uri.encodeComponent(message)}";
+                            //     if (await canLaunchUrl(
+                            //         Uri.parse(linkedInUrl))) {
+                            //       await launchUrl(Uri.parse(linkedInUrl),
+                            //           mode: LaunchMode.externalApplication);
+                            //     } else {
+                            //       CustomSnackbar.showSnackbar(context,
+                            //           "LinkedIn app is not installed!", false);
+                            //     }
+                            //   },
+                            //   icon: Icon(
+                            //     TablerIcons.brand_linkedin,
+                            //     color: textColor,
+                            //     size: 16.sp,
+                            //   ),
+                            // ),
+                            // IconButton(
+                            //   onPressed: () async {
+                            //     // Share video URL and review text on Twitter
+                            //     String message = value[index].review ??
+                            //         "Check out this video!";
+                            //     String videoUrl =
+                            //         storageUrl + (value[index].videoUrl ?? "");
+                            //     String twitterUrl =
+                            //         "https://twitter.com/intent/tweet?text=${Uri.encodeComponent('$message $videoUrl')}";
+                            //     if (await canLaunchUrl(Uri.parse(twitterUrl))) {
+                            //       await launchUrl(Uri.parse(twitterUrl),
+                            //           mode: LaunchMode.externalApplication);
+                            //     } else {
+                            //       CustomSnackbar.showSnackbar(context,
+                            //           "Twitter app is not installed!", false);
+                            //     }
+                            //   },
+                            //   icon: Icon(
+                            //     TablerIcons.brand_twitter,
+                            //     color: textColor,
+                            //     size: 16.sp,
+                            //   ),
+                            // ),
+
+                            // IconButton(
+                            //   onPressed: () async {
+                            //     // Share video URL and review text on Instagram (via share intent)
+                            //     String message = value[index].review ??
+                            //         "Check out this video!";
+                            //     String videoUrl =
+                            //         storageUrl + (value[index].videoUrl ?? "");
+                            //     String instagramUrl =
+                            //         "instagram://story-camera?background=${Uri.encodeComponent(videoUrl)}";
+                            //     if (await canLaunchUrl(
+                            //         Uri.parse(instagramUrl))) {
+                            //       await launchUrl(Uri.parse(instagramUrl),
+                            //           mode: LaunchMode.externalApplication);
+                            //     } else {
+                            //       CustomSnackbar.showSnackbar(context,
+                            //           "Instagram app is not installed!", false);
+                            //     }
+                            //   },
+                            //   icon: Icon(
+                            //     TablerIcons.brand_instagram,
+                            //     color: textColor,
+                            //     size: 16.sp,
+                            //   ),
+                            // ),
                           ],
                         ),
                       ],

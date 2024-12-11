@@ -5,7 +5,6 @@ import 'dart:typed_data';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:open_document/open_document.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:scp/core/consultant/services/digital_products/view/edit/edit_digital_product_offered.dart';
@@ -187,9 +186,6 @@ class DigitalProductsOffered extends ConsumerWidget {
                                     log('File downloaded to: $localPath');
                                     CustomSnackbar.showSnackbar(context,
                                         'File downloaded to: $localPath', true);
-                                    OpenDocument.openDocument(
-                                      filePath: localPath,
-                                    );
                                   } catch (e) {
                                     log('Error downloading file: $e');
                                   }
@@ -251,3 +247,5 @@ class DigitalProductsOffered extends ConsumerWidget {
     );
   }
 }
+
+

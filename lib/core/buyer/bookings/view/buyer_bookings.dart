@@ -7,7 +7,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_tabler_icons/flutter_tabler_icons.dart';
 import 'package:intl/intl.dart';
-import 'package:open_document/open_document.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:scp/core/buyer/bookings/view_models/buyer_bookings_view_model.dart';
@@ -238,9 +237,6 @@ class BuyerBookings extends ConsumerWidget {
                                 log('File downloaded to: $localPath');
                                 CustomSnackbar.showSnackbar(context,
                                     'File downloaded to: $localPath', true);
-                                OpenDocument.openDocument(
-                                  filePath: localPath,
-                                );
                               } catch (e) {
                                 log('Error downloading file: $e');
                               }
