@@ -1,6 +1,9 @@
+import 'dart:developer';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:intl/intl.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:scp/core/consultant/services/one_to_sessions/view/edit/edit_one_to_one_session.dart';
 import 'package:scp/core/consultant/services/one_to_sessions/view_models/one_to_one_session_view_model.dart';
@@ -88,11 +91,41 @@ class OneToOneSessions extends ConsumerWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children:
                           value[index].availableSlots!.map<Widget>((slot) {
+                        log(slot.startTime.toString());
+                        DateTime dateTime = DateTime.now();
+                        int hours = dateTime.timeZoneOffset.inHours;
+                        // Combine the backend time with a date to create a full DateTime object
+                        DateTime startUtcDateTime =
+                            DateTime.parse("2024-12-18T${slot.startTime}");
+
+                        // Convert the UTC time to local time
+                        DateTime startLocalDateTime =
+                            startUtcDateTime.toLocal();
+
+                        startLocalDateTime =
+                            startLocalDateTime.add(Duration(hours: hours));
+
+                        // Format the local time
+                        String startTime =
+                            DateFormat('hh:mm a').format(startLocalDateTime);
+
+                        DateTime endUtcDateTime =
+                            DateTime.parse("2024-12-18T${slot.endTime}");
+
+                        // Convert the UTC time to local time
+                        DateTime endLocalDateTime = endUtcDateTime.toLocal();
+
+                        endLocalDateTime =
+                            endLocalDateTime.add(Duration(hours: hours));
+
+                        // Format the local time
+                        String endTime =
+                            DateFormat('hh:mm a').format(endLocalDateTime);
                         return Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              "${slot.startTime} - ${slot.endTime}",
+                              "$startTime - $endTime",
                               textAlign: TextAlign.start,
                               style: TextStyle(
                                 fontSize: 15.sp,

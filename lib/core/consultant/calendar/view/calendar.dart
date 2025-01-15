@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_tabler_icons/flutter_tabler_icons.dart';
+import 'package:intl/intl.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:scp/core/consultant/calendar/view/add/add_available_slots.dart';
 import 'package:scp/core/consultant/calendar/view_model/available_slots_view_model.dart';
@@ -108,6 +109,34 @@ class CalendarState extends ConsumerState<Calendar> {
                       physics: const NeverScrollableScrollPhysics(),
                       itemCount: value.length,
                       itemBuilder: (context, index) {
+                        DateTime dateTime = DateTime.now();
+                        int hours = dateTime.timeZoneOffset.inHours;
+
+                        // Combine the backend time with a date to create a full DateTime object
+                        DateTime startUtcDateTime = DateTime.parse(
+                            "2024-12-18T${value[index].startTime}");
+
+                        // Convert the UTC time to local time
+                        DateTime startLocalDateTime =
+                            startUtcDateTime.toLocal();
+                        startLocalDateTime =
+                            startLocalDateTime.add(Duration(hours: hours));
+                        // Format the local time
+                        String startTime =
+                            DateFormat('hh:mm a').format(startLocalDateTime);
+
+                        DateTime endUtcDateTime = DateTime.parse(
+                            "2024-12-18T${value[index].endTime}");
+
+                        // Convert the UTC time to local time
+                        DateTime endLocalDateTime = endUtcDateTime.toLocal();
+                        endLocalDateTime =
+                            endLocalDateTime.add(Duration(hours: hours));
+
+                        // Format the local time
+                        String endTime =
+                            DateFormat('hh:mm a').format(endLocalDateTime);
+
                         return Container(
                           padding: const EdgeInsets.all(10),
                           decoration: BoxDecoration(
@@ -124,7 +153,7 @@ class CalendarState extends ConsumerState<Calendar> {
                               Row(
                                 children: [
                                   Text(
-                                    '${value[index].startTime} - ${value[index].endTime}',
+                                    '$startTime - $endTime',
                                     style: TextStyle(
                                       fontSize: 18.sp,
                                       fontWeight: FontWeight.bold,

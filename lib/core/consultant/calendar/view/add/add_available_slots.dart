@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_tabler_icons/flutter_tabler_icons.dart';
@@ -278,10 +280,56 @@ class AddAvailableSlotsState extends ConsumerState<AddAvailableSlots> {
                             context, 'End Time is required!', false);
                         return;
                       }
+                      DateTime dateTime = DateTime.now();
+                      int hoursOffset = dateTime.timeZoneOffset.inHours;
+
+                      // Convert TimeOfDay to DateTime
+                      DateTime startDateTime = DateTime(
+                        dateTime.year,
+                        dateTime.month,
+                        dateTime.day,
+                        startTime!.hour,
+                        startTime!.minute,
+                      );
+
+                      // Subtract the hours offset
+                      DateTime updatedDateTime =
+                          startDateTime.subtract(Duration(hours: hoursOffset));
+
+                      // Convert back to TimeOfDay
+                      TimeOfDay updatedTime = TimeOfDay(
+                        hour: updatedDateTime.hour,
+                        minute: updatedDateTime.minute,
+                      );
+
+                      DateTime endDateTime = DateTime(
+                        dateTime.year,
+                        dateTime.month,
+                        dateTime.day,
+                        endTime!.hour,
+                        endTime!.minute,
+                      );
+
+                      // Subtract the hours offset
+                      DateTime updatedEndDateTime =
+                          endDateTime.subtract(Duration(hours: hoursOffset));
+
+                      // Convert back to TimeOfDay
+                      TimeOfDay updatedEndTime = TimeOfDay(
+                        hour: updatedEndDateTime.hour,
+                        minute: updatedEndDateTime.minute,
+                      );
+
+                      // DateTime dateTime = DateTime.now();
+                      // int hours = dateTime.timeZoneOffset.inHours;
+                      log(updatedTime.toString());
+                      log(updatedEndTime.toString());
+                      // startLocalDateTime =
+                      //     startLocalDateTime.add(Duration(hours: hours));
                       ref.read(availableSlotsViewModelProvider.notifier).create(
                             daysList,
-                            startTime!,
-                            endTime!,
+                            updatedTime,
+                            updatedEndTime,
                             ref,
                           );
                     },

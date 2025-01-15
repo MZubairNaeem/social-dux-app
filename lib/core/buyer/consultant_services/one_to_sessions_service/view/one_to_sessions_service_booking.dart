@@ -1,5 +1,8 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:intl/intl.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:scp/core/buyer/bookings/view_models/buyer_bookings_view_model.dart';
 import 'package:scp/core/buyer/consultant_services/one_to_sessions_service/provider/one_to_sessions_service_slots_provider.dart';
@@ -88,6 +91,32 @@ class OneToSessionsServiceBookingState
                 physics: const NeverScrollableScrollPhysics(),
                 itemCount: value.length,
                 itemBuilder: (context, index) {
+                  // Combine the backend time with a date to create a full DateTime object
+                  DateTime startUtcDateTime =
+                      DateTime.parse("2024-12-18T${value[index].startTime}");
+
+                  // Convert the UTC time to local time
+                  DateTime startLocalDateTime = startUtcDateTime.toLocal();
+                  DateTime dateTime = DateTime.now();
+                  int hours = dateTime.timeZoneOffset.inHours;
+                  startLocalDateTime =
+                      startLocalDateTime.add(Duration(hours: hours));
+
+                  // Format the local time
+                  String startTime =
+                      DateFormat('hh:mm a').format(startLocalDateTime);
+
+                  DateTime endUtcDateTime =
+                      DateTime.parse("2024-12-18T${value[index].endTime}");
+
+                  // Convert the UTC time to local time
+                  DateTime endLocalDateTime = endUtcDateTime.toLocal();
+                  endLocalDateTime =
+                      endLocalDateTime.add(Duration(hours: hours));
+                  // Format the local time
+                  String endTime =
+                      DateFormat('hh:mm a').format(endLocalDateTime);
+
                   slot = value[index].id;
                   return Container(
                     margin: EdgeInsets.all(5.w),
@@ -106,7 +135,7 @@ class OneToSessionsServiceBookingState
                         Row(
                           children: [
                             Text(
-                              '${value[index].startTime} - ${value[index].endTime}',
+                              '$startTime - $endTime',
                               style: TextStyle(
                                 fontSize: 18.sp,
                                 fontWeight: FontWeight.bold,

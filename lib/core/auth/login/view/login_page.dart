@@ -263,7 +263,7 @@ class LoginPageState extends ConsumerState<LoginPage> {
                       Align(
                         alignment: Alignment.centerRight,
                         child: TextButton(
-                          onPressed: () => Navigator.push(
+                          onPressed: () => Navigator.push( 
                             context,
                             MaterialPageRoute(
                               builder: (context) => const ForgotPassword(),

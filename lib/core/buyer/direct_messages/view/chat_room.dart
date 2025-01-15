@@ -116,24 +116,26 @@ class ChatRoomState extends ConsumerState<ChatRoom> {
                                       mainAxisSize: MainAxisSize.max,
                                       children: [
                                         Consumer(
-                                            builder: (context, ref, child) {
-                                          final user = ref.watch(userProvider(
-                                              chatRoom[index].consultantId!));
-                                          return user.when(
-                                            data: (data) {
-                                              return Text(
-                                                data.name,
-                                                style: TextStyle(
-                                                  color: textColor,
-                                                  fontSize: 16.sp,
-                                                  fontWeight: FontWeight.w600,
-                                                ),
-                                              );
-                                            },
-                                            error: (e, st) => const SizedBox(),
-                                            loading: () => const SizedBox(),
-                                          );
-                                        }),
+                                          builder: (context, ref, child) {
+                                            final user = ref.watch(userProvider(
+                                                chatRoom[index].consultantId!));
+                                            return user.when(
+                                              data: (data) {
+                                                return Text(
+                                                  data.name,
+                                                  style: TextStyle(
+                                                    color: textColor,
+                                                    fontSize: 16.sp,
+                                                    fontWeight: FontWeight.w600,
+                                                  ),
+                                                );
+                                              },
+                                              error: (e, st) =>
+                                                  const SizedBox(),
+                                              loading: () => const SizedBox(),
+                                            );
+                                          },
+                                        ),
                                         SizedBox(
                                           width: 30.w,
                                           child: Text(
